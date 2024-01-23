@@ -19,6 +19,10 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
     {
         health -= damage;
 
+        /*
+         * Damage audio would go here
+         */
+
         if (health <= 0)
         {
             Kill();
@@ -31,6 +35,10 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
 
     public void Kill()
     {
+        /*
+         * Death audio would go here
+         */
+
         gameObject.SetActive(false);
     }
 

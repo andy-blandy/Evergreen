@@ -28,6 +28,10 @@ public class PlayerAttack : MonoBehaviour
         if (!isAttacking)
         {
             StartCoroutine(AttackAnimation());
+
+            /*
+             * Attack audio goes here
+             */
         }
     }
 
