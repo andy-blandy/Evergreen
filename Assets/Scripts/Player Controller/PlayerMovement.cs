@@ -1,3 +1,8 @@
+/*
+ * Written by Andrew
+ * @andy_blandy
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    /*
+     * In update we get the player's input and set the desired velocity of the player based on that input
+     */
     void Update()
     {
         playerInput.x = Input.GetAxis("Horizontal");
@@ -25,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
         desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
     }
     
+    /*
+     * In fixed update we move the player by getting the player's current velocity and moving it towards the desired velocity.
+     * The input and movement are separated like this since it's recommended to handle any physics-based events in fixed update.
+     */
     void FixedUpdate()
     {
         velocity = rb.velocity;
