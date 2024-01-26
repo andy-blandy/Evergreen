@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public float nextTime;
+    public float timeBetweenAttacks;
 
     void OnTriggerStay(Collider collider)
     {
@@ -13,7 +14,7 @@ public class EnemyAttack : MonoBehaviour
             {
                 id.Damage(1);
             }
-            nextTime = Time.time + 1;
+            nextTime = Time.time + timeBetweenAttacks;
         }
     }
 }

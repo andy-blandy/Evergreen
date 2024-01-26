@@ -11,7 +11,7 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
 
     public TextMeshProUGUI healthText;
 
-    public UnityEngine.AI.NavMeshAgent agent;
+    public NavMeshAgent agent;
     public Transform target;
     public float speed;
 
@@ -20,10 +20,7 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
         health = startingHealth;
 
         // Create a new NavMeshAgent.
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-
-        // Set the agent's speed.
-        agent.speed = 10f;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     public void Damage(int damage)

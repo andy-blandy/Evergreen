@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -14,14 +15,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int health { get; set; }
     public Transform spawn;
 
+    public TextMeshProUGUI healthText;
+
     void Start()
     {
         health = startingHealth;
+        UpdateHealthUI();
     }
 
     public void Damage(int damage)
     {
         health -= damage;
+        UpdateHealthUI();
+
         if (health <= 0)
         {
             Kill();
@@ -37,15 +43,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             health += healamount;
         }
+
+        UpdateHealthUI();
     }
 
     public void Kill()
     {
+        // Respawn player
         Debug.Log("Player has died");
         health = maxHealth;
         transform.position = spawn.position;
-        /*
-         * Insert code to respawn player
-         */
+        UpdateHealthUI();
+    }
+
+    public void UpdateHealthUI()
+    {
+        healthText.text = health.ToString();
     }
 }
