@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DamageableBarrel : MonoBehaviour, IDamageable
 {
@@ -10,9 +11,19 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
 
     public TextMeshProUGUI healthText;
 
+    public UnityEngine.AI.NavMeshAgent agent;
+    public Transform target;
+    public float speed;
+
     void Start()
     {
         health = startingHealth;
+
+        // Create a new NavMeshAgent.
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        // Set the agent's speed.
+        agent.speed = 10f;
     }
 
     public void Damage(int damage)
@@ -37,5 +48,13 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
     void Update()
     {
         healthText.text = health.ToString();
+        agent.destination = target.position;
     }
+    // void OnTriggerStay(Collider collider)
+    // {
+    //     if(collider.tag == "Player")
+    //     {
+    //         agent.destination = target.transform.position;
+    //     }
+    // }
 }

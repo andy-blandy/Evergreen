@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int startingHealth = 3;
     public int maxHealth = 3;
     public int health { get; set; }
+    public Transform spawn;
 
     void Start()
     {
@@ -40,6 +41,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void Kill()
     {
+        Debug.Log("Player has died");
+        health = maxHealth;
+        transform.position = spawn.position;
         /*
          * Insert code to respawn player
          */
