@@ -9,6 +9,8 @@ public class PlayerAttack : MonoBehaviour
     public Coroutine attackCoroutine;
     public bool isAttacking;
 
+    public AudioSource attackSFX;
+
     void Start()
     {
         isAttacking = false;
@@ -29,9 +31,8 @@ public class PlayerAttack : MonoBehaviour
         {
             StartCoroutine(AttackAnimation());
 
-            /*
-             * Attack audio goes here
-             */
+            // Audio
+            attackSFX.Play();
         }
     }
 
