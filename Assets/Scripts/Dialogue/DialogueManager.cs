@@ -1,3 +1,8 @@
+/*
+ * Written by Andrew
+ * @andy_blandy
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,48 +22,171 @@ public class DialogueManager : MonoBehaviour
     public float fastReadingSpeed;
 
     [Header("Dialogue Logic")]
-    public int positionInDialogue;
+    public int positionInTree;
+    public bool inDialogue;
+    public bool isTyping;
+    public bool speedUp;
+    public List<Dialogue> currentDialogueTree;
+    private Coroutine typeDialogueCoroutine;
 
-    // DELETE THIS
-    string testText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac ornare nisi, id laoreet mauris. Duis viverra placerat dolor sed aliquet. Ut vitae pharetra tortor, id sodales sapien. Integer fringilla laoreet lacus";
 
     private YieldInstruction letterYield;
     private YieldInstruction fastLetterYield;
 
     private string invisibleTag = "<alpha=#00>";
+    private int wordLimit = 218;
+
+    // Singleton
+    public static DialogueManager instance;
 
     void Awake()
     {
+        instance = this;
+
+        // This instantiates the pauses between each letter typed
         letterYield = new WaitForSeconds(readingSpeed);
         fastLetterYield = new WaitForSeconds(fastReadingSpeed);
     }
 
     void Update()
     {
+        if (inDialogue)
+        {
+            DialogueUpdate();
+        }
+    }
+    
+    void DialogueUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            dialogueUI.SetActive(true);
-            StartCoroutine(TypeDialogue(testText));
+            ReadDialogueTree();
         }
     }
 
+    public void StartDialogue(List<Dialogue> dialogueTree)
+    {
+        currentDialogueTree = dialogueTree;
+
+        dialogueUI.SetActive(true);
+        inDialogue = true;
+        positionInTree = 0;
+    }
+
+    void ReadDialogueTree()
+    {
+        /*
+         * Couple return statements below.
+         * First makes sure there is actually a dialogue tree.
+         * Second skips the typing coroutine and shows the full text.
+         * Last stops the dialogue if the end of the current dialogue tree has been reached.
+         */
+        if (currentDialogueTree == null)
+        {
+            Debug.LogAssertion("DialogueTree is null!");
+            EndDialogue();
+            return;
+        }
+        if (typeDialogueCoroutine != null && isTyping)
+        {
+            StopCoroutine(typeDialogueCoroutine);
+
+            okIndicator.SetActive(true);
+            isTyping = false;
+
+            textBox.text = currentDialogueTree[positionInTree - 1].text;
+            return;
+        }
+        if (positionInTree >= currentDialogueTree.Count)
+        {
+            EndDialogue();
+            return;
+        }
+
+        /*
+         * If a message is being typed, we stop the typing coroutine and display the full message.
+         * Otherwise, we begin typing the next message from the dialogue tree.
+         */
+        string currentText = currentDialogueTree[positionInTree].text;
+        if (currentText.Length > wordLimit)
+        {
+            Debug.LogAssertion("The text in '" + currentDialogueTree[positionInTree].name + "' is too long! Try to keep each dialogue to under " + wordLimit + " characters.");
+            SplitText(currentText, positionInTree + 1);
+
+            currentText = currentText.Remove(wordLimit);
+        }
+
+        // Speed up the typing if needed
+        if (currentText.Length > wordLimit * 0.5)
+        {
+            speedUp = true;
+        } else
+        {
+            speedUp = false;
+        }
+
+        typeDialogueCoroutine = StartCoroutine(TypeDialogue(currentText));
+        positionInTree++;
+    }
+
+    void SplitText(string textToSplit, int pos)
+    {
+        string newText = textToSplit.Remove(0, wordLimit - 1);
+        Dialogue newDialogue;
+        if (newText.Length < wordLimit)
+        {
+            newDialogue = new Dialogue(newText);
+        } else
+        {
+            newDialogue = new Dialogue(newText.Remove(wordLimit));
+        }
+        currentDialogueTree.Insert(pos, newDialogue);
+
+        if (newText.Length > wordLimit)
+        {
+            SplitText(newText, pos + 1);
+        }
+    }
+
+    void EndDialogue()
+    {
+        if (isTyping)
+        {
+            StopCoroutine(typeDialogueCoroutine);
+            isTyping = false;
+        }
+
+        dialogueUI.SetActive(false);
+        inDialogue = false;
+    }
 
     IEnumerator TypeDialogue(string textToType)
     {
         okIndicator.SetActive(false);
+        isTyping = true;
 
-        textBox.text = "<alpha=#00>" + textToType;
-        int i = 0;
-
-        while (i < textToType.Length)
+        /*
+         * This coroutine makes the text appear by changing the alpha value of each letter
+         * The invisibleTag is an aplha tag set to 0 (<alpha=#00>) that is placed in front of all the letters we 
+         * don't want to see yet.
+         */
+        textBox.text = invisibleTag + textToType;
+        for (int i = 0; i <= textToType.Length; i++)
         {
-            yield return letterYield;
+            if (speedUp)
+            {
+                yield return fastLetterYield;
+            }
+            else
+            {
+                yield return letterYield;
+            }
 
-            i++;
             string newText = textToType.Insert(i, invisibleTag);
             textBox.text = newText;
         }
 
         okIndicator.SetActive(true);
+        isTyping = false;
     }
 }
