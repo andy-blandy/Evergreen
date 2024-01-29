@@ -13,9 +13,9 @@ public class AttackHitbox : MonoBehaviour
             id.Damage(1);
 
             float distanceAway = (collider.transform.position - transform.position).magnitude;
-            Debug.Log("Distance: " + distanceAway);
+            float distModifier = 1 - (distanceAway / 1.4f);
 
-            id.Knockback(transform.forward * knockbackAmount);
+            id.Knockback(transform.forward * knockbackAmount * distModifier);
         }
     }
 }

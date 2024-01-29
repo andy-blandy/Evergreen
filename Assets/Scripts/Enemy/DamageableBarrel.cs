@@ -9,10 +9,15 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
 
     public TextMeshProUGUI healthText;
 
+    [Header("Look")]
+    public float turnSpeed = 0.2f;
+
+    [Header("Stun")]
     public float stunAmount;
     public bool isStunned;
     private float stunTimer;
 
+    [Header("Components")]
     private Rigidbody rb;
     public NavMeshAgent agent;
     public Transform target;
@@ -40,6 +45,15 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
         }
 
         agent.destination = target.position;
+        LookAtPlayer();
+    }
+
+    void LookAtPlayer()
+    {
+        Vector3 lookVector = target.position - transform.position;
+        lookVector.y = 0;
+        Quaternion rot = Quaternion.LookRotation(lookVector);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, turnSpeed);
     }
 
     void Stunned()
