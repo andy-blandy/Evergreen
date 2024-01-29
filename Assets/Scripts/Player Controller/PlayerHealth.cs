@@ -15,7 +15,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int health { get; set; }
     public Transform spawn;
 
+    private Rigidbody rb;
+
     public TextMeshProUGUI healthText;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Start()
     {
@@ -59,5 +66,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void UpdateHealthUI()
     {
         healthText.text = health.ToString();
+    }
+
+    public void Knockback(Vector3 knockback)
+    {
+        rb.AddForce(knockback, ForceMode.Impulse);
     }
 }

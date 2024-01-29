@@ -1707,6 +1707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 3
   healthText: {fileID: 845797712}
+  stunAmount: 0
+  isStunned: 0
   agent: {fileID: 1197831619}
   target: {fileID: 2063691918}
   speed: 0
@@ -1939,6 +1941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbd7fec7076a194881b4b7fff776d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackAmount: 100
 --- !u!1 &1387381893
 GameObject:
   m_ObjectHideFlags: 0
@@ -2891,6 +2894,7 @@ GameObject:
   - component: {fileID: 2017889400}
   - component: {fileID: 2017889404}
   - component: {fileID: 2017889405}
+  - component: {fileID: 2017889406}
   m_Layer: 0
   m_Name: Damageable Barrel
   m_TagString: Untagged
@@ -3000,8 +3004,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b15562d07f9fde64f820caf0200490e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 3
+  startingHealth: 50
   healthText: {fileID: 1643174170}
+  stunAmount: 1.15
+  isStunned: 0
   agent: {fileID: 2017889405}
   target: {fileID: 2063691918}
   speed: 2
@@ -3021,12 +3027,39 @@ NavMeshAgent:
   m_AngularSpeed: 10
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &2017889406
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017889399}
+  serializedVersion: 4
+  m_Mass: 20
+  m_Drag: 1.83
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2033589089
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,6 +3095,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 3
   healthText: {fileID: 361906536}
+  stunAmount: 0
+  isStunned: 0
   agent: {fileID: 2033589095}
   target: {fileID: 2063691918}
   speed: 0
@@ -3363,7 +3398,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &2063691920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3466,7 +3501,7 @@ AudioSource:
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -3764,7 +3799,11 @@ MonoBehaviour:
   okIndicator: {fileID: 1033796939}
   readingSpeed: 0.05
   fastReadingSpeed: 0.01
-  positionInDialogue: 0
+  positionInTree: 0
+  inDialogue: 0
+  isTyping: 0
+  speedUp: 0
+  currentDialogueTree: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
