@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NextRoom : MonoBehaviour
 {
-    private GameObject DungeonManager;
+    private DungeonManager dungeonManager;
 
     //To find the dungeon manager Script
-    private void Awake()
+    private void Start()
     {
-        DungeonManager = GameObject.FindGameObjectWithTag("DungeonManager");
+        dungeonManager = DungeonManager.instance;
     }
 
     //This determines what function to call in the Dungeon manager Script 
@@ -21,19 +21,19 @@ public class NextRoom : MonoBehaviour
             switch (s)
             {
                 case "NorthDoor":
-                    DungeonManager.GetComponent<DungeonManager>().NorthDoorHit(collision);
+                    dungeonManager.NorthDoorHit(collision);
                     break;
                 case "SouthDoor":
-                    DungeonManager.GetComponent<DungeonManager>().SouthDoorHit(collision);
+                    dungeonManager.SouthDoorHit(collision);
                     break;
                 case "EastDoor":
-                    DungeonManager.GetComponent<DungeonManager>().EastDoorHit(collision);
+                    dungeonManager.EastDoorHit(collision);
                     break;
                 case "WestDoor":
-                    DungeonManager.GetComponent<DungeonManager>().WestDoorHit(collision);
+                    dungeonManager.WestDoorHit(collision);
                     break;
                 case "DungeonStart":
-                    DungeonManager.GetComponent<DungeonManager>().SpawnFirstRoom(collision);
+                    dungeonManager.SpawnFirstRoom(collision);
                     break;
             }
         }

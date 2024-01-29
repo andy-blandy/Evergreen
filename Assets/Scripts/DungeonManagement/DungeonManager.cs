@@ -13,11 +13,15 @@ public class DungeonManager : MonoBehaviour
     private int RoomsSpawned;
     public float BossRoomChance = 0.00f;
 
+    // Singleton
+    public static DungeonManager instance;
+
     //Setting the first rooms transform as well as saving it to the active rooms
     private void Awake()
     {
+        instance = this;
+
         FirstDungeonRoom.transform.position = new Vector3(0, 0, 500);
-        ActiveDungeonRooms.Add(FirstDungeonRoom);
     }
 
     //The next 4 functions are called when the player collides with the door, they are called from the Next Room script that is on all the doors
@@ -124,6 +128,7 @@ public class DungeonManager : MonoBehaviour
         {
             if(i.transform.position == t)
             {
+                Debug.Log(i.name);
                 //Spawns player in the room of an already existing room when they try to traverse backwards
                 if (x == 1) //north
                 {
@@ -140,7 +145,7 @@ public class DungeonManager : MonoBehaviour
                 if (x == 3) //east
                 {
                     CurrentRoom = i.gameObject;
-                    P.transform.position = CurrentRoom.transform.GetChild(1).transform.GetChild(3).transform.GetChild(0).transform.position;
+                    P.transform.position = CurrentRoom.transform.GetChild(1).GetChild(3).transform.GetChild(0).transform.position;
                 }
 
                 if (x == 4) //west
