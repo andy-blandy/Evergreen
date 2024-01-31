@@ -12,6 +12,10 @@ public class DungeonManager : MonoBehaviour
     private GameObject CurrentRoom;
     private int RoomsSpawned;
     public float BossRoomChance = 0.00f;
+    private float RoomDistanceApart = 45.0f; //Can now adjust the distance that the rooms spawn away from each other
+    private int ShopRoomSpawnded = 0;
+    private bool SpawnShop = false;
+    public GameObject[] SpawnableRooms = new GameObject[2]; //Array for the rooms that can be spawned into the dungeon
 
     // Singleton
     public static DungeonManager instance;
@@ -50,8 +54,11 @@ public class DungeonManager : MonoBehaviour
     private void SpawnNewRoom(Collider P, int x)
     {
 
+        GameObject NewRoom;
+        int RandomRoomChoice = Random.Range(2, 17);
+        int RandomShopRoomChoice = Random.Range(1, 6);
+
         //Keep track of the number of rooms spawned as well as increment the counter for the chance at a boss room
-        RoomsSpawned++;
         if (RoomsSpawned == 5 || RoomsSpawned == 10 || RoomsSpawned == 15 || RoomsSpawned == 20)
         {
             BossRoomChance += 0.10f;
@@ -61,59 +68,112 @@ public class DungeonManager : MonoBehaviour
             BossRoomChance = 1;
         }
 
+        //random values chance for different room spawns like the boss room and shop rooms
         float BossChance = Random.Range(0.00f, 1.01f);
+        float ShopChance = Random.Range(0.00f, 1.01f);
+
+        if (ShopChance < .20f && ShopRoomSpawnded < 2)
+        {
+            ShopRoomSpawnded++;
+            SpawnShop = true;
+        }
+
         if (BossChance < BossRoomChance )
         {
-            //Code in here for the boss room
-            Debug.Log("Boss Room");
+            SpawnBossRoom(P);
+            return;
         }
-        else //To spawn a random number of doors that the player has a possiblility of going through. not yet implemented
+        else
         {
             if (x == 1) // North
             {
-                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z + 35);
+                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z + RoomDistanceApart);
                 if (!alreadyActiveRoom(RoomLoc, P, x))
                 {
-                    GameObject NewRoom = Instantiate(DungeonBase, RoomLoc, Quaternion.identity);
+                    if (SpawnShop == true)
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomShopRoomChoice], RoomLoc, Quaternion.identity);
+                        SpawnShop = false;
+                    }
+                    else
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomRoomChoice], RoomLoc, Quaternion.identity);
+                        NewRoom.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                    RoomsSpawned++;
                     ActiveDungeonRooms.Add(NewRoom.transform);
                     CurrentRoom = NewRoom;
                     P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
+                    return;
                 }
             }
 
             if (x == 2) // South
             {
-                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z - 35);
+                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z - RoomDistanceApart);
                 if (!alreadyActiveRoom(RoomLoc, P, x))
                 {
-                    GameObject NewRoom = Instantiate(DungeonBase, RoomLoc, Quaternion.identity);
+                    if (SpawnShop == true)
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomShopRoomChoice], RoomLoc, Quaternion.identity);
+                        SpawnShop = false;
+                    }
+                    else
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomRoomChoice], RoomLoc, Quaternion.identity);
+                        NewRoom.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                    RoomsSpawned++;
                     ActiveDungeonRooms.Add(NewRoom.transform);
                     CurrentRoom = NewRoom;
                     P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(0).transform.GetChild(0).transform.position;
+                    return;
                 }
             }
 
             if (x == 3) // East
             {
-                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x + 35, 0, CurrentRoom.transform.position.z);
+                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x + RoomDistanceApart, 0, CurrentRoom.transform.position.z);
                 if (!alreadyActiveRoom(RoomLoc, P, x))
                 {
-                    GameObject NewRoom = Instantiate(DungeonBase, RoomLoc, Quaternion.identity);
+                    if (SpawnShop == true)
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomShopRoomChoice], RoomLoc, Quaternion.identity);
+                        SpawnShop = false;
+                    }
+                    else
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomRoomChoice], RoomLoc, Quaternion.identity);
+                        NewRoom.transform.GetChild(1).transform.GetChild(3).gameObject.SetActive(true);
+                    }
+                    RoomsSpawned++;
                     ActiveDungeonRooms.Add(NewRoom.transform);
                     CurrentRoom = NewRoom;
                     P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(3).transform.GetChild(0).transform.position;
+                    return;
                 }
             }
 
             if (x == 4) // West
             {
-                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x - 35, 0, CurrentRoom.transform.position.z);
+                Vector3 RoomLoc = new Vector3(CurrentRoom.transform.position.x - RoomDistanceApart, 0, CurrentRoom.transform.position.z);
                 if (!alreadyActiveRoom(RoomLoc, P, x))
                 {
-                    GameObject NewRoom = Instantiate(DungeonBase, RoomLoc, Quaternion.identity);
+                    if (SpawnShop == true)
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomShopRoomChoice], RoomLoc, Quaternion.identity);
+                        SpawnShop = false;
+                    }
+                    else
+                    {
+                        NewRoom = Instantiate(SpawnableRooms[RandomRoomChoice], RoomLoc, Quaternion.identity);
+                        NewRoom.transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
+                    }
+                    RoomsSpawned++;
                     ActiveDungeonRooms.Add(NewRoom.transform);
                     CurrentRoom = NewRoom;
                     P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(2).transform.GetChild(0).transform.position;
+                    return;
                 }
             }
         }
@@ -128,7 +188,6 @@ public class DungeonManager : MonoBehaviour
         {
             if(i.transform.position == t)
             {
-                Debug.Log(i.name);
                 //Spawns player in the room of an already existing room when they try to traverse backwards
                 if (x == 1) //north
                 {
@@ -169,5 +228,15 @@ public class DungeonManager : MonoBehaviour
         CurrentRoom = NewRoom;
         NewRoom.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(false);
         P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
+    }
+
+    private void SpawnBossRoom(Collider P)
+    {
+        Vector3 RoomLoc = new Vector3(0, 50, 500);
+        GameObject NewRoom = Instantiate(SpawnableRooms[0], RoomLoc, Quaternion.identity);
+        ActiveDungeonRooms.Add(NewRoom.transform);
+        CurrentRoom = NewRoom;
+        P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
+        return;
     }
 }

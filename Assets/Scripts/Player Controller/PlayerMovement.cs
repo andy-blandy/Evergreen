@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        backgroundMusic.Play();
+        //backgroundMusic.Play();
     }
 
     /*

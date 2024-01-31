@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1479,7 +1479,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5732173, y: 0.000000035247414, z: -0.00000002465748, w: 0.81940347}
-  m_LocalPosition: {x: -0.0000002949552, y: 10.393925, z: -3.4284387}
+  m_LocalPosition: {x: -0.00000029495516, y: 10.393924, z: 7.1015615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2891,7 +2891,7 @@ Transform:
   m_GameObject: {fileID: 1903160753}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5732173, y: 0.000000035247414, z: -0.00000002465748, w: 0.81940347}
-  m_LocalPosition: {x: -0.0000002949552, y: 10.393925, z: -3.4284387}
+  m_LocalPosition: {x: -0.00000029495516, y: 10.393924, z: 7.1015615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2947,6 +2947,24 @@ MonoBehaviour:
   DungeonBase: {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
   FirstDungeonRoom: {fileID: 525338338}
   BossRoomChance: 0
+  SpawnableRooms:
+  - {fileID: 2701616643084903231, guid: fd55aa7e9f74dd749bc95b96e9c2d1f1, type: 3}
+  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
+  - {fileID: 591137144307491619, guid: 286359f97b6bb514e8c06e9bcb0c5e5a, type: 3}
+  - {fileID: 4350645437825344985, guid: 4ec4c114309e9c146a09a03d7079549b, type: 3}
+  - {fileID: 386314482416759915, guid: 1f08e3954c2cb504b9a3dd42775e071e, type: 3}
+  - {fileID: 3361464242915764394, guid: 9025e2ba492430b4a9af1b96dee60e81, type: 3}
+  - {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
+  - {fileID: 1017251385819275185, guid: 23f2917649bd24c43b9c7219650cf8e4, type: 3}
+  - {fileID: 894445171475967134, guid: 57108445e57ea1147b7cd75d8646fcb3, type: 3}
+  - {fileID: 4492781112033582729, guid: 748083e1d93650d48bafe67ccfdb5af3, type: 3}
+  - {fileID: 8211926391913937277, guid: e09171f61a349434ea40b734f5fb6eca, type: 3}
+  - {fileID: 3347149354015662277, guid: 871d5f6f997caab4eac1d52e115654c4, type: 3}
+  - {fileID: 3622974628084180326, guid: dd2fbfa7c60f4f944b7799bf1e17906f, type: 3}
+  - {fileID: 8080390190799730438, guid: f3a78752fccf0c544a9ccace3d1a8567, type: 3}
+  - {fileID: 6570108495971924153, guid: b1dc862aabfa5154fbcf9b9b66743901, type: 3}
+  - {fileID: 5346509514473939627, guid: d195294e4fb1d08489362ed43e3d529d, type: 3}
+  - {fileID: 4920825835528890458, guid: c1e12ffcd3bf2904bbe913b33192ae60, type: 3}
 --- !u!1 &1925882107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3671,7 +3689,7 @@ Transform:
   m_GameObject: {fileID: 2063691914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.54119456, z: 0, w: 0.84089744}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 10.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

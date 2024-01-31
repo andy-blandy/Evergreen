@@ -32,7 +32,7 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(AttackAnimation());
 
             // Audio
-            attackSFX.Play();
+            //attackSFX.Play();
         }
     }
 
