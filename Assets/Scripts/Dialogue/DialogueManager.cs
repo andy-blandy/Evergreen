@@ -26,10 +26,12 @@ public class DialogueManager : MonoBehaviour
     public bool inDialogue;
     public bool isTyping;
     public bool speedUp;
+    public bool dialogueCooling;
     public List<Dialogue> currentDialogueTree;
     private Coroutine typeDialogueCoroutine;
 
-
+    // Corotuine Logic
+    private YieldInstruction cooldownDialogue;
     private YieldInstruction letterYield;
     private YieldInstruction fastLetterYield;
 
@@ -44,6 +46,7 @@ public class DialogueManager : MonoBehaviour
         instance = this;
 
         // This instantiates the pauses between each letter typed
+        cooldownDialogue = new WaitForSeconds(1);
         letterYield = new WaitForSeconds(readingSpeed);
         fastLetterYield = new WaitForSeconds(fastReadingSpeed);
     }
@@ -66,11 +69,17 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(List<Dialogue> dialogueTree)
     {
-        currentDialogueTree = dialogueTree;
+        if (dialogueCooling)
+        {
+            Debug.Log("DIALOGUE COOLING");
+            return;
+        }
 
+        currentDialogueTree = dialogueTree;
         dialogueUI.SetActive(true);
         inDialogue = true;
         positionInTree = 0;
+        ReadDialogueTree();
     }
 
     void ReadDialogueTree()
@@ -158,6 +167,7 @@ public class DialogueManager : MonoBehaviour
 
         dialogueUI.SetActive(false);
         inDialogue = false;
+        StartCoroutine(DialogueCooldown());
     }
 
     IEnumerator TypeDialogue(string textToType)
@@ -188,5 +198,15 @@ public class DialogueManager : MonoBehaviour
 
         okIndicator.SetActive(true);
         isTyping = false;
+    }
+
+    /*
+     * Adds a pause between each dialogue tree to prevent an infinite loop of dialogue
+     */
+    IEnumerator DialogueCooldown()
+    {
+        dialogueCooling = true;
+        yield return cooldownDialogue;
+        dialogueCooling = false;
     }
 }

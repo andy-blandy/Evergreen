@@ -4,13 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Playr
   - DungeonManager
   - NorthDoor
   - SouthDoor
   - EastDoor
   - WestDoor
   - DungeonStart
+  - Playr
   layers:
   - Default
   - TransparentFX

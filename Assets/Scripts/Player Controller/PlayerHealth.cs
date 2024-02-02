@@ -65,7 +65,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void UpdateHealthUI()
     {
-        healthText.text = health.ToString();
+        PlayerHUD.instance.UpdateHealth(health);
     }
 
     public void Knockback(Vector3 knockback)

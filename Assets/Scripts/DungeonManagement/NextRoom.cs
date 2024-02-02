@@ -15,7 +15,7 @@ public class NextRoom : MonoBehaviour
     //This determines what function to call in the Dungeon manager Script 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Playr" )
+        if (collision.gameObject.tag == "Player" )
         {
             string s = gameObject.tag;
             switch (s)
