@@ -16,12 +16,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 playerInput;
     public Vector3 velocity, desiredVelocity;
 
-    public AudioSource backgroundMusic;
-
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //backgroundMusic.Play();
     }
 
     /*

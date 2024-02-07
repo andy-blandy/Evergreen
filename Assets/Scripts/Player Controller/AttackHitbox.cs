@@ -1,3 +1,8 @@
+/*
+ * This is attached to a hitbox that appears whenever the player attacks
+ * It looks for any object implementing the Damageable interface and... damages it.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
