@@ -9,17 +9,35 @@ using UnityEngine;
 
 public class PlayerAiming : MonoBehaviour
 {
-    public Vector3 mouseWorldPosition;
+    public Vector3 lookPosition;
     public Vector3 look;
+
+    [Range(0f, 100f)] public float lookSpeed = 10f;
+
+    private PlayerMovement playerMovement;
+
+    void Awake()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+    }
+
 
     /*
      * Find the position of the mouse in the world, and use that to find where the player should look at
      */
     void Update()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
-        look = new Vector3(mouseWorldPosition.x, transform.position.y, mouseWorldPosition.z);
+        if (playerMovement.isDashing)
+        {
+            lookPosition = playerMovement.endOfDashPos;
+        }
+        else
+        {
+            Vector3 mousePos = Input.mousePosition;
+            lookPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
+        }
+
+        look = new Vector3(lookPosition.x, transform.position.y, lookPosition.z);
     }
 
     /*
@@ -27,6 +45,7 @@ public class PlayerAiming : MonoBehaviour
      */
     void FixedUpdate()
     {
-        transform.LookAt(look);
+        Quaternion lookRot = Quaternion.LookRotation(look - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, lookSpeed * Time.deltaTime);
     }
 }
