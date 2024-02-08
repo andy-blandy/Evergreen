@@ -6,11 +6,17 @@ using UnityEngine;
 public class PlayerHUD : MonoBehaviour
 {
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI xpText;
 
     public static PlayerHUD instance;
     void Awake()
     {
         instance = this;
+    }
+
+    public void UpdateXP(int xp)
+    {
+        xpText.text = xp.ToString();
     }
 
     public void UpdateHealth(int health)

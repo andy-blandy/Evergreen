@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
     }
 
+    void Start()
+    {
+        PlayerHUD.instance.UpdateXP(xp);
+    }
+
     #region Methods to Increase/Decrease Stats
     public void IncreaseMaxHealth(int increase)
     {
@@ -57,4 +62,5 @@ public class Player : MonoBehaviour
         playerAttack.knockbackAmount += increase;
     }
     #endregion
+
 }

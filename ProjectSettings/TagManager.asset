@@ -11,6 +11,7 @@ TagManager:
   - WestDoor
   - DungeonStart
   - Playr
+  - xp
   layers:
   - Default
   - TransparentFX
