@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public int damage = 1;
+    public float knockbackAmount = 25f;
+
     public float attackLength;
     public GameObject attackHitbox;
     public Coroutine attackCoroutine;
@@ -32,7 +35,7 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(AttackAnimation());
 
             // Audio
-            //attackSFX.Play();
+            attackSFX.Play();
         }
     }
 
