@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     [Header("XP")]
     public int xp;
 
+    [Header("Input")]
+    public bool isFrozen;
+
     void Awake()
     {
         instance = this;

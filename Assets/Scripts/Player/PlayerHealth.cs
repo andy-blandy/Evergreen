@@ -19,8 +19,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public TextMeshProUGUI healthText;
 
+    public static PlayerHealth instance;
     void Awake()
     {
+        instance = this;
+
         rb = GetComponent<Rigidbody>();
     }
 

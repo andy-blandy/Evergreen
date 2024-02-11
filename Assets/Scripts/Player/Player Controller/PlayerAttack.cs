@@ -22,6 +22,11 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (Player.instance.isFrozen)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Attack();
