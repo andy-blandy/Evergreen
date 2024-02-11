@@ -15,4 +15,4 @@ MonoBehaviour:
   stat: 0
   statChange: 5
   cost: 2
-  description: 
+  description: +5 hp

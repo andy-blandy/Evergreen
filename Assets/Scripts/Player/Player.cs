@@ -31,39 +31,19 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
     }
 
-    void Start()
+    public void SetXP(int value)
     {
-        PlayerHUD.instance.UpdateXP(xp);
-    }
+        xp = value;
 
-    #region Methods to Increase/Decrease Stats
-    public void IncreaseMaxHealth(int increase)
-    {
-        playerHealth.maxHealth += increase;
-    }
-
-    public void IncreaseDashLength(float increase)
-    {
-        playerMovement.dashLength += increase;
-    }
-
-    public void DecreaseDashCooldown(float decrease)
-    {
-        if (playerMovement.dashCooldown - decrease > 0)
+        if (PlayerHUD.instance != null)
         {
-            playerMovement.dashCooldown -= decrease;
+            PlayerHUD.instance.UpdateXP(xp);
         }
     }
 
-    public void IncreaseDamage(int increase)
+    public void FreezePlayer(bool freeze)
     {
-        playerAttack.damage += increase;
+        isFrozen = freeze;
     }
-
-    public void IncreaseKnockback(float increase)
-    {
-        playerAttack.knockbackAmount += increase;
-    }
-    #endregion
 
 }

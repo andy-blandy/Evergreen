@@ -14,6 +14,12 @@ public class PlayerHUD : MonoBehaviour
         instance = this;
     }
 
+    void Start()
+    {
+        UpdateXP(Player.instance.xp);
+        UpdateHealth(Player.instance.playerHealth.health);
+    }
+
     public void UpdateXP(int xp)
     {
         xpText.text = xp.ToString();

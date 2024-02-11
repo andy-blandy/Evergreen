@@ -18,7 +18,7 @@ public class PlayerAiming : MonoBehaviour
 
     void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        playerMovement = Player.instance.playerMovement;
     }
 
 
@@ -27,6 +27,11 @@ public class PlayerAiming : MonoBehaviour
      */
     void Update()
     {
+        if (Player.instance.isFrozen)
+        {
+            return;
+        }
+
         if (playerMovement.isDashing)
         {
             lookPosition = playerMovement.endOfDashPos;

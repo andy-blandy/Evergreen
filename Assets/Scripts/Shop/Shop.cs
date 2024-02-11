@@ -23,6 +23,18 @@ public class Shop : MonoBehaviour
         shopCamera = GetComponent<ShopCamera>();
     }
 
+    void OnEnable()
+    {
+        PlayerInput.OnInteract += PurchaseItem;
+        PlayerInput.OnBack += ExitShop;
+    }
+
+    void OnDisable()
+    {
+        PlayerInput.OnInteract -= PurchaseItem;
+        PlayerInput.OnBack -= ExitShop;
+    }
+
     void Start()
     {
         GetRandomItems();
@@ -47,26 +59,23 @@ public class Shop : MonoBehaviour
         {
             PrevItem();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PurchaseItem();
-        }
     }
 
+    /*
+     * Fills the shop with random items from the allShopItems list
+     */
     void GetRandomItems()
     {
-        shopItems = new List<ShopItem>();
+        List<int> choices = new List<int>();
+        for (int c = 0; c < allShopItems.Count; c++)
+        {
+            choices.Add(c);
+        }
 
+        shopItems = new List<ShopItem>();
         for (int i = 0; i < totalNumOfItems; i++)
         {
-            List<int> choices = new List<int>();
-            for (int c = 0; c < allShopItems.Count; c++)
-            {
-                choices.Add(c);
-            }
-
-            int randomChoice = choices[Random.Range(0, allShopItems.Count)];
+            int randomChoice = choices[Random.Range(0, choices.Count)];
             choices.Remove(randomChoice);
             shopItems.Add(allShopItems[randomChoice]);
         }
@@ -74,10 +83,13 @@ public class Shop : MonoBehaviour
 
     public void EnterShop()
     {
+        StartCoroutine(SetInShop(true));
+
         shopCamera.Enter();
         trigger.SetActive(false);
         curItemIndex = 0;
-        inShop = true;
+
+        Player.instance.FreezePlayer(true);
 
         ShopUI.instance.OpenDialogue();
         ShopUI.instance.SetText(shopItems[curItemIndex]);
@@ -85,11 +97,20 @@ public class Shop : MonoBehaviour
 
     public void ExitShop()
     {
+        StartCoroutine(SetInShop(false));
+
         shopCamera.Exit();
         trigger.SetActive(true);
-        inShop = false;
+
+        Player.instance.FreezePlayer(false);
 
         ShopUI.instance.CloseDialogue();
+    }
+
+    IEnumerator SetInShop(bool value)
+    {
+        yield return new WaitForFixedUpdate();
+        inShop = value;
     }
 
     void NextItem()
@@ -120,13 +141,19 @@ public class Shop : MonoBehaviour
     {
         ShopItem curItem = shopItems[curItemIndex];
 
-        if (Player.instance.xp < curItem.cost)
+        if (!inShop ||
+            Player.instance.xp < curItem.cost)
         {
             return;
         }
 
-        Player.instance.xp -= curItem.cost;
+        if (curItem.stat == StatManager.StatType.Health &&
+            Player.instance.playerHealth.health >= Player.instance.playerHealth.maxHealth)
+        {
+            return;
+        }
 
+        Player.instance.SetXP(Player.instance.xp - curItem.cost);
         StatManager.instance.UpgradeStat(curItem.stat, curItem.statChange);
     }
 }

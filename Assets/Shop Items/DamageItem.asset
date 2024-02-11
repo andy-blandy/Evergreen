@@ -15,4 +15,4 @@ MonoBehaviour:
   stat: 1
   statChange: 1
   cost: 10
-  description: 
+  description: +1 to damage
