@@ -201,7 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbd7fec7076a194881b4b7fff776d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackAmount: 25
 --- !u!1 &4615916738788606695
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef93cbd60f61b494ca1f08d99a5ace08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  knockbackAmount: 25
   attackLength: 0.25
   attackHitbox: {fileID: 322644091653065783}
   isAttacking: 0
@@ -360,7 +361,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3864164376784767225
@@ -375,6 +376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1356d7e8480547b4e8364abd9f7960f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: {fileID: 0}
+  playerMovement: {fileID: 0}
+  playerAttack: {fileID: 0}
+  xp: 0
 --- !u!82 &6046006919364432404
 AudioSource:
   m_ObjectHideFlags: 0
@@ -482,7 +487,6 @@ GameObject:
   - component: {fileID: 7862076600013513128}
   - component: {fileID: 2089324774105383254}
   - component: {fileID: 4970427421422981745}
-  - component: {fileID: 2989659508067184691}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -556,26 +560,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2989659508067184691
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4934980624054143038}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

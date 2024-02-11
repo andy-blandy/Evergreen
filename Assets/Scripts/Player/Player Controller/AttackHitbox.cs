@@ -9,14 +9,17 @@ using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour
 {
-    public float knockbackAmount;
-
     void OnTriggerEnter(Collider collider)
     {
         if (collider.TryGetComponent<IDamageable>(out IDamageable id))
         {
-            id.Damage(1);
+            // This gets the damage and knockback from the PlayerAttack script
+            int damage = Player.instance.playerAttack.damage;
+            float knockbackAmount = Player.instance.playerAttack.knockbackAmount;
 
+            id.Damage(damage);
+
+            // Modifies the amount of knockback applied to the enemy based on the distance away from the enemy
             float distanceAway = (collider.transform.position - transform.position).magnitude;
             float distModifier = 1 - (distanceAway / 1.4f);
 

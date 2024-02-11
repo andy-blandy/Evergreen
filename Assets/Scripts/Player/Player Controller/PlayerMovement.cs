@@ -36,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
      */
     void Update()
     {
+        if (Player.instance.isFrozen)
+        {
+            return;
+        }
+
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
         playerInput = Vector2.ClampMagnitude(playerInput, 1f);

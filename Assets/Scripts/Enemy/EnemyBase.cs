@@ -28,6 +28,12 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void Damage(int damage)
     {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Kill();
+        }
     }
 
     public virtual void Heal(int healamount)
@@ -36,6 +42,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void Kill()
     {
+        gameObject.SetActive(false);
+        XPManager.instance.SpawnXP(transform.position);
     }
 
     /*
