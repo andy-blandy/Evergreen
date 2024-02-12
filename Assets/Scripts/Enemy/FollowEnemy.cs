@@ -16,7 +16,7 @@ public class FollowEnemy : EnemyBase
         agent.stoppingDistance = attackRange;
     }
 
-    void Update()
+    protected override void EnemyUpdate()
     {
         // Updates the stopping distance of the NavMeshAgent if the attack range is changed while in the unity editor
         #if UNITY_EDITOR
@@ -25,12 +25,6 @@ public class FollowEnemy : EnemyBase
             agent.stoppingDistance = attackRange;
         }
         #endif
-
-        if (isStunned)
-        {
-            Stunned();
-            return;
-        }
 
         // State controller based on enemy's distance from player
         playerPos = Player.instance.transform.position;

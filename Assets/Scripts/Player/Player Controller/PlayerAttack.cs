@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public int damage = 1;
-    public float knockbackAmount = 25f;
+
+    public float minimumKnockbackAmount = 5f;
+    public float knockbackAmount = 10f;
 
     public float attackLength;
     public GameObject attackHitbox;

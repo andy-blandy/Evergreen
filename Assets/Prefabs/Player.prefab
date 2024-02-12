@@ -307,7 +307,6 @@ MonoBehaviour:
   startingHealth: 10
   maxHealth: 10
   spawn: {fileID: 0}
-  healthText: {fileID: 0}
 --- !u!114 &801279393680291667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  knockbackAmount: 25
+  minimumKnockbackAmount: 4
+  knockbackAmount: 10
   attackLength: 0.25
   attackHitbox: {fileID: 322644091653065783}
   isAttacking: 0
@@ -380,6 +380,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   playerAttack: {fileID: 0}
   xp: 0
+  isFrozen: 0
 --- !u!82 &6046006919364432404
 AudioSource:
   m_ObjectHideFlags: 0
