@@ -9,12 +9,25 @@ using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour
 {
+    private bool isColliding;
+
+    void OnDisable()
+    {
+        isColliding = false;
+    }
+
     void OnTriggerEnter(Collider collider)
     {
+        if (isColliding)
+        {
+            return;
+        }
+
         if (collider.TryGetComponent<IDamageable>(out IDamageable id))
         {
             // This gets the damage and knockback from the PlayerAttack script
             int damage = Player.instance.playerAttack.damage;
+            float minKnockback = Player.instance.playerAttack.minimumKnockbackAmount;
             float knockbackAmount = Player.instance.playerAttack.knockbackAmount;
 
             id.Damage(damage);
@@ -23,7 +36,24 @@ public class AttackHitbox : MonoBehaviour
             float distanceAway = (collider.transform.position - transform.position).magnitude;
             float distModifier = 1 - (distanceAway / 1.4f);
 
-            id.Knockback(transform.forward * knockbackAmount * distModifier);
+            // Calculate force, and modify it as needed
+            Vector3 knockbackForce = transform.forward * knockbackAmount * distModifier;
+            if (knockbackForce.magnitude < minKnockback)
+            {
+                knockbackForce = transform.forward * minKnockback;
+            }
+
+            id.Knockback(knockbackForce);
+
+            // Prevent detecting multiple collisions in the same frame
+            isColliding = true;
+            StartCoroutine(ResetAttack());
         }
+    }
+
+    IEnumerator ResetAttack()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isColliding = false;
     }
 }

@@ -50,11 +50,19 @@ public class XPManager : MonoBehaviour
 
     public void SpawnXP(Vector3 spawnPos)
     {
+        if (spawnPos.y <= 0)
+        {
+            spawnPos.y = 0.5f;
+        }
+
         GetOrb().transform.position = spawnPos;
     }
 
     public void SpawnXP(Vector3 spawnPos, int numToSpawn)
     {
-
+        if (spawnPos.y <= 0)
+        {
+            spawnPos.y = 0.5f;
+        }
     }
 }

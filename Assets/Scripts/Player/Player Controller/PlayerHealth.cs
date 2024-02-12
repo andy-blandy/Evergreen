@@ -17,8 +17,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Rigidbody rb;
 
-    public TextMeshProUGUI healthText;
-
     public static PlayerHealth instance;
     void Awake()
     {
@@ -62,13 +60,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // Respawn player
         Debug.Log("Player has died");
         health = maxHealth;
-        transform.position = spawn.position;
         UpdateHealthUI();
+
+        if (spawn != null)
+        {
+            transform.position = spawn.position;
+        }
     }
 
     public void UpdateHealthUI()
     {
-        PlayerHUD.instance.UpdateHealth(health);
+        if (PlayerHUD.instance != null)
+        {
+            PlayerHUD.instance.UpdateHealth(health);
+        }
     }
 
     public void Knockback(Vector3 knockback)

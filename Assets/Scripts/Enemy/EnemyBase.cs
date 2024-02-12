@@ -10,6 +10,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected Rigidbody rb;
 
     public int health { get; set; }
+    public int startingHealth;
 
     [Header("Stun")]
     public float stunLength = 1f;
@@ -17,13 +18,36 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public bool isStunned;
 
     [Header("Movement")]
-    [Range(0f, 0.5f)]
+    [Range(0f, 10f)]
     public float turnSpeed = 0.2f;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        health = startingHealth;
+    }
+
+    protected virtual void Update()
+    {
+        if (isStunned)
+        {
+            Stunned();
+            return;
+        }
+
+        EnemyUpdate();
+    }
+
+    /*
+     * Override this function in child to add update logic
+     * This is only added to ensure that the stun functions the same for all enemies
+     */
+    protected virtual void EnemyUpdate()
+    {
+        return;
     }
 
     public virtual void Damage(int damage)
@@ -38,6 +62,12 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void Heal(int healamount)
     {
+        health += healamount;
+        
+        if (health > startingHealth)
+        {
+            health = startingHealth;
+        }
     }
 
     public virtual void Kill()
@@ -57,10 +87,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
             return;
         }
 
-        agent.isStopped = true;
-        rb.AddForce(knockback, ForceMode.Impulse);
         isStunned = true;
         stunTimer = stunLength;
+        agent.isStopped = true;
+        rb.isKinematic = false;
+        rb.AddForce(knockback, ForceMode.Impulse);
     }
 
     /*
@@ -74,6 +105,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         {
             // Remove any forces being applied to the rigidbody
             rb.velocity = Vector3.zero;
+            rb.isKinematic = true;
 
             agent.isStopped = false;
             isStunned = false;
