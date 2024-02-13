@@ -23,30 +23,9 @@ public class RangedEnemy : EnemyBase
     private float fireRate = 2f;
     private float timedBullets;
 
-
-
-    void Start()
-    {
-        agent.stoppingDistance = attackRange;
-    }
-
-    void Update()
+    protected override void EnemyUpdate()
     {
         timedBullets += Time.deltaTime;
-
-        // Updates the stopping distance of the NavMeshAgent if the attack range is changed while in the unity editor
-        #if UNITY_EDITOR
-        if (agent.stoppingDistance != attackRange)
-        {
-            agent.stoppingDistance = attackRange;
-        }
-        #endif
-
-        if (isStunned)
-        {
-            Stunned();
-            return;
-        }
 
         // State controller based on enemy's distance from player
         playerPos = Player.instance.transform.position;
@@ -94,9 +73,7 @@ public class RangedEnemy : EnemyBase
     {
         LookAtPlayer();
         agent.isStopped = true;
-        /*
-         * Insert attack behavior here
-         */
+
         if (timedBullets > fireRate)
         {
             timedBullets = 0;
@@ -112,15 +89,9 @@ public class RangedEnemy : EnemyBase
             agent.isStopped = false;
         }
 
-        //Bunch of code that i couldnt get to work, i triple checked the math and it seems to be ok but the agent did not want to move to the destination
-        /*Debug.Log("Running away");
-
-        Vector3 directionToPlayer = transform.position - Player.instance.transform.position;
-        Vector3 fleeDirection = transform.position + directionToPlayer;
-        Vector3 fleePosition = new Vector3(fleeDirection.x, 1.07f, fleeDirection.z);
-        //Vector3 fleeDirection = new Vector3(-Player.instance.transform.position.x, 1, -Player.instance.transform.position.z);
-        agent.destination = fleePosition;*/
-
+        Vector3 fleeDirection = Vector3.Normalize(transform.position - Player.instance.transform.position);
+        Vector3 fleePosition = transform.position + fleeDirection * (fleeRange + 1f);
+        agent.destination = fleePosition;
     }
 
     private void OnDrawGizmosSelected()
