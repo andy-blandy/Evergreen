@@ -11,6 +11,7 @@ public class PlayerAiming : MonoBehaviour
 {
     public Vector3 lookPosition;
     public Vector3 look;
+    public Quaternion lookRot;
 
     [Range(0f, 100f)] public float lookSpeed = 10f;
 
@@ -39,7 +40,12 @@ public class PlayerAiming : MonoBehaviour
         else
         {
             Vector3 mousePos = Input.mousePosition;
-            lookPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
+            Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+
+            if (Physics.Raycast(mouseRay, out RaycastHit hit))
+            {
+                lookPosition = hit.point;
+            }
         }
 
         look = new Vector3(lookPosition.x, transform.position.y, lookPosition.z);
@@ -50,7 +56,7 @@ public class PlayerAiming : MonoBehaviour
      */
     void FixedUpdate()
     {
-        Quaternion lookRot = Quaternion.LookRotation(look - transform.position);
+        lookRot = Quaternion.LookRotation(look - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, lookSpeed * Time.deltaTime);
     }
 }
