@@ -21,19 +21,22 @@ public class NextRoom : MonoBehaviour
             switch (s)
             {
                 case "NorthDoor":
-                    dungeonManager.NorthDoorHit(collision);
+                    dungeonManager.SelectRoom(collision, 1);
                     break;
                 case "SouthDoor":
-                    dungeonManager.SouthDoorHit(collision);
+                    dungeonManager.SelectRoom(collision, 2);
                     break;
                 case "EastDoor":
-                    dungeonManager.EastDoorHit(collision);
+                    dungeonManager.SelectRoom(collision, 3);
                     break;
                 case "WestDoor":
-                    dungeonManager.WestDoorHit(collision);
+                    dungeonManager.SelectRoom(collision, 4);
                     break;
                 case "DungeonStart":
                     dungeonManager.SpawnFirstRoom(collision);
+                    break;
+                default:
+                    dungeonManager.SelectRoom(collision, 1);
                     break;
             }
         }

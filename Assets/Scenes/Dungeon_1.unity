@@ -523,27 +523,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c117799be940db4285d1c05ac849018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DungeonBase: {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
   FirstDungeonRoom: {fileID: 170889773}
+  RoomDistanceApart: 45
+  RoomsSpawned: 0
+  ShopsSpawned: 0
+  DungeonBase: {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
+  spawnableRooms: []
+  shopRooms: []
+  bossRoom: {fileID: 0}
+  activeDungeonRooms: []
+  randomRoomChoice: 0
+  randomShopChoice: 0
   BossRoomChance: 0
-  SpawnableRooms:
-  - {fileID: 2701616643084903231, guid: fd55aa7e9f74dd749bc95b96e9c2d1f1, type: 3}
-  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
-  - {fileID: 591137144307491619, guid: 286359f97b6bb514e8c06e9bcb0c5e5a, type: 3}
-  - {fileID: 4350645437825344985, guid: 4ec4c114309e9c146a09a03d7079549b, type: 3}
-  - {fileID: 386314482416759915, guid: 1f08e3954c2cb504b9a3dd42775e071e, type: 3}
-  - {fileID: 3361464242915764394, guid: 9025e2ba492430b4a9af1b96dee60e81, type: 3}
-  - {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
-  - {fileID: 1017251385819275185, guid: 23f2917649bd24c43b9c7219650cf8e4, type: 3}
-  - {fileID: 894445171475967134, guid: 57108445e57ea1147b7cd75d8646fcb3, type: 3}
-  - {fileID: 4492781112033582729, guid: 748083e1d93650d48bafe67ccfdb5af3, type: 3}
-  - {fileID: 8211926391913937277, guid: e09171f61a349434ea40b734f5fb6eca, type: 3}
-  - {fileID: 3347149354015662277, guid: 871d5f6f997caab4eac1d52e115654c4, type: 3}
-  - {fileID: 3622974628084180326, guid: dd2fbfa7c60f4f944b7799bf1e17906f, type: 3}
-  - {fileID: 8080390190799730438, guid: f3a78752fccf0c544a9ccace3d1a8567, type: 3}
-  - {fileID: 6570108495971924153, guid: b1dc862aabfa5154fbcf9b9b66743901, type: 3}
-  - {fileID: 5346509514473939627, guid: d195294e4fb1d08489362ed43e3d529d, type: 3}
-  - {fileID: 4920825835528890458, guid: c1e12ffcd3bf2904bbe913b33192ae60, type: 3}
 --- !u!4 &1042307426
 Transform:
   m_ObjectHideFlags: 0

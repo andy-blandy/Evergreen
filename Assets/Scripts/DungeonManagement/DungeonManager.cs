@@ -40,30 +40,9 @@ public class DungeonManager : MonoBehaviour
         instance = this;
     }
 
-    //The next 4 functions are called when the player collides with the door, they are called from the Next Room script that is on all the doors
-    public void NorthDoorHit(Collider P)
-    {
-        SelectRoom(P, 1);
-    }
-
-    public void SouthDoorHit(Collider P)
-    {
-        SelectRoom(P, 2);
-    }
-
-    public void EastDoorHit(Collider P)
-    {
-        SelectRoom(P, 3);
-    }
-
-    public void WestDoorHit(Collider P)
-    {
-        SelectRoom(P, 4);
-    }
-
     //This will make new rooms depending on which door the player hit in the dungeon
     //For reference child 1 is rooms, child 0 is north, 1 is south, 2 is east, 3 is west
-    private void SelectRoom(Collider P, int x)
+    public void SelectRoom(Collider P, int x)
     {
         randomRoomChoice = Random.Range(0, spawnableRooms.Length);
         randomShopChoice = Random.Range(0, shopRooms.Length);
