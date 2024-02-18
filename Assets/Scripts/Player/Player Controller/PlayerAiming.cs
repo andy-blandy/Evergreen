@@ -16,10 +16,10 @@ public class PlayerAiming : MonoBehaviour
 
     private PlayerMovement playerMovement;
 
-    void Awake()
-    {
-        playerMovement = Player.instance.playerMovement;
-    }
+    // void Awake()
+    // {
+    //     playerMovement = Player.instance.playerMovement;
+    // }
 
 
     /*

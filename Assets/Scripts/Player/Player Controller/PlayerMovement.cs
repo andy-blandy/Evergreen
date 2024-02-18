@@ -36,10 +36,10 @@ public class PlayerMovement : MonoBehaviour
      */
     void Update()
     {
-        if (Player.instance.isFrozen)
-        {
-            return;
-        }
+        // if (Player.instance.isFrozen)
+        // {
+        //     return;
+        // }
 
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
@@ -115,5 +115,13 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(dashCooldown);
         dashCooling = false;
+    }
+    public void Knockback(Vector3 knockback)
+    {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+        rb.AddForce(knockback, ForceMode.Impulse);
     }
 }
