@@ -80,8 +80,6 @@ public class DungeonManager : MonoBehaviour
 
     private void SpawnRoom(Collider P, int x)
     {
-        GameObject newRoom;
-
         /*
          * Get the position and doorway location of the room to spawn
          */
@@ -107,6 +105,10 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
 
+        /*
+         * Spawn the room
+         */
+        GameObject newRoom;
         if (!alreadyActiveRoom(RoomLoc, P, x))
         {
             DungeonRoom room;
