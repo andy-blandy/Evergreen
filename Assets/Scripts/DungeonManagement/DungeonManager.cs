@@ -89,19 +89,19 @@ public class DungeonManager : MonoBehaviour
         {
             case 1:
                 RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z + RoomDistanceApart);
-                exitDoorPosition = "north";
+                exitDoorPosition = "south";
                 break;
             case 2:
                 RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z - RoomDistanceApart);
-                exitDoorPosition = "south";
+                exitDoorPosition = "north";
                 break;
             case 3:
                 RoomLoc = new Vector3(currentRoom.transform.position.x + RoomDistanceApart, 0, currentRoom.transform.position.z);
-                exitDoorPosition = "east";
+                exitDoorPosition = "west";
                 break;
             case 4:
                 RoomLoc = new Vector3(currentRoom.transform.position.x - RoomDistanceApart, 0, currentRoom.transform.position.z);
-                exitDoorPosition = "west";
+                exitDoorPosition = "east";
                 break;
         }
 

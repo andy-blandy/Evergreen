@@ -528,9 +528,12 @@ MonoBehaviour:
   RoomsSpawned: 0
   ShopsSpawned: 0
   DungeonBase: {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
-  spawnableRooms: []
-  shopRooms: []
-  bossRoom: {fileID: 0}
+  spawnableRooms:
+  - {fileID: 4204904744280929666, guid: 1b6bcf2687a75f8488e3083c987e906e, type: 3}
+  - {fileID: 1681175592718720730, guid: 351b1b7058f0f1a429d07fcccc79b754, type: 3}
+  shopRooms:
+  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
+  bossRoom: {fileID: 2701616643084903231, guid: fd55aa7e9f74dd749bc95b96e9c2d1f1, type: 3}
   activeDungeonRooms: []
   randomRoomChoice: 0
   randomShopChoice: 0

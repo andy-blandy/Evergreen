@@ -135,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 4017254910005792518, guid: 1b6bcf2687a75f8488e3083c987e906e, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 8fe8a30109d53d1448c9b968f61dafa7, type: 2}
+      objectReference: {fileID: 23800000, guid: 513d9e97006a40443857fdc760e80a12, type: 2}
     - target: {fileID: 4204904744280929666, guid: 1b6bcf2687a75f8488e3083c987e906e, type: 3}
       propertyPath: m_Name
       value: SlimeRoom
