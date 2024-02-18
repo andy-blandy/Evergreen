@@ -5,25 +5,31 @@ using UnityEngine;
 public class DungeonManager : MonoBehaviour
 {
     //Variable declaration
-    public GameObject DungeonBase;
 
+    [Header("Positioning")]
     public Transform FirstDungeonRoom;
-    private GameObject CurrentRoom;
-    private int RoomsSpawned;
-    private float RoomDistanceApart = 45.0f; //Can now adjust the distance that the rooms spawn away from each other
-    private int ShopRoomSpawnded = 0;
-    private bool SpawnShop = false;
+    [SerializeField] private float RoomDistanceApart = 45.0f; //Can now adjust the distance that the rooms spawn away from each other
 
-    [Header("Rooms")]
-    public List<DungeonRoom> activeDungeonRooms = new List<DungeonRoom>();
+
+    [Header("Room Counters")]
+    [SerializeField] private int RoomsSpawned = 0;
+    [SerializeField] private int ShopsSpawned = 0;
+
+    [Header("Room Prefabs")]
+    public GameObject DungeonBase;
     public GameObject[] spawnableRooms; //Array for the rooms that can be spawned into the dungeon
     public GameObject[] shopRooms;
     public GameObject bossRoom;
+
+    [Header("Active Rooms")]
+    public List<DungeonRoom> activeDungeonRooms = new List<DungeonRoom>();
+    private DungeonRoom currentRoom;
 
     [Header("Prob of Rooms")]
     public int randomRoomChoice;
     public int randomShopChoice;
     public float BossRoomChance = 0.00f;
+    private bool SpawnShop = false;
 
 
     // Singleton
@@ -76,9 +82,9 @@ public class DungeonManager : MonoBehaviour
         float BossChance = Random.Range(0.00f, 1.01f);
         float ShopChance = Random.Range(0.00f, 1.01f);
 
-        if (ShopChance < .20f && ShopRoomSpawnded < 2)
+        if (ShopChance < .20f && ShopsSpawned < 2)
         {
-            ShopRoomSpawnded++;
+            ShopsSpawned++;
             SpawnShop = true;
         }
 
@@ -105,19 +111,19 @@ public class DungeonManager : MonoBehaviour
         switch (x)
         {
             case 1:
-                RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z + RoomDistanceApart);
+                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z + RoomDistanceApart);
                 exitDoorPosition = "north";
                 break;
             case 2:
-                RoomLoc = new Vector3(CurrentRoom.transform.position.x, 0, CurrentRoom.transform.position.z - RoomDistanceApart);
+                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z - RoomDistanceApart);
                 exitDoorPosition = "south";
                 break;
             case 3:
-                RoomLoc = new Vector3(CurrentRoom.transform.position.x + RoomDistanceApart, 0, CurrentRoom.transform.position.z);
+                RoomLoc = new Vector3(currentRoom.transform.position.x + RoomDistanceApart, 0, currentRoom.transform.position.z);
                 exitDoorPosition = "east";
                 break;
             case 4:
-                RoomLoc = new Vector3(CurrentRoom.transform.position.x - RoomDistanceApart, 0, CurrentRoom.transform.position.z);
+                RoomLoc = new Vector3(currentRoom.transform.position.x - RoomDistanceApart, 0, currentRoom.transform.position.z);
                 exitDoorPosition = "west";
                 break;
         }
@@ -142,7 +148,7 @@ public class DungeonManager : MonoBehaviour
 
             RoomsSpawned++;
             activeDungeonRooms.Add(room);
-            CurrentRoom = newRoom;
+            currentRoom = room;
             P.transform.position = door.transform.GetChild(0).position;
             return;
         }
@@ -154,33 +160,33 @@ public class DungeonManager : MonoBehaviour
     {
         bool RoomSpawned = false;
 
-        foreach(Transform i in ActiveDungeonRooms)
+        foreach(DungeonRoom i in activeDungeonRooms)
         {
             if(i.transform.position == t)
             {
                 //Spawns player in the room of an already existing room when they try to traverse backwards
                 if (x == 1) //north
                 {
-                    CurrentRoom = i.gameObject;
-                    P.transform.position = CurrentRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
+                    currentRoom = i;
+                    P.transform.position = currentRoom.GetDoorway("south").transform.position;
                 }
 
                 if (x == 2) //south
                 {
-                    CurrentRoom = i.gameObject;
-                    P.transform.position = CurrentRoom.transform.GetChild(1).transform.GetChild(0).transform.GetChild(0).transform.position;
+                    currentRoom = i;
+                    P.transform.position = currentRoom.GetDoorway("north").transform.position;
                 }
 
                 if (x == 3) //east
                 {
-                    CurrentRoom = i.gameObject;
-                    P.transform.position = CurrentRoom.transform.GetChild(1).GetChild(3).transform.GetChild(0).transform.position;
+                    currentRoom = i;
+                    P.transform.position = currentRoom.GetDoorway("west").transform.position;
                 }
 
                 if (x == 4) //west
                 {
-                    CurrentRoom = i.gameObject;
-                    P.transform.position = CurrentRoom.transform.GetChild(1).transform.GetChild(2).transform.GetChild(0).transform.position;
+                    currentRoom = i;
+                    P.transform.position = currentRoom.GetDoorway("east").transform.position;
                 }
 
                 RoomSpawned = true;
@@ -194,8 +200,9 @@ public class DungeonManager : MonoBehaviour
     public void SpawnFirstRoom(Collider P)
     {
         GameObject NewRoom = Instantiate(DungeonBase, FirstDungeonRoom.position, Quaternion.identity);
-        ActiveDungeonRooms.Add(NewRoom.transform);
-        CurrentRoom = NewRoom;
+        DungeonRoom newRoom = NewRoom.GetComponent<DungeonRoom>();
+        activeDungeonRooms.Add(newRoom);
+        currentRoom = newRoom;
         NewRoom.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(false);
         P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
     }
@@ -203,9 +210,10 @@ public class DungeonManager : MonoBehaviour
     private void SpawnBossRoom(Collider P)
     {
         Vector3 RoomLoc = new Vector3(0, 50, 500);
-        GameObject NewRoom = Instantiate(spawnableRooms[0], RoomLoc, Quaternion.identity);
-        ActiveDungeonRooms.Add(NewRoom.transform);
-        CurrentRoom = NewRoom;
+        GameObject NewRoom = Instantiate(bossRoom, RoomLoc, Quaternion.identity);
+        DungeonRoom newRoom = NewRoom.GetComponent<DungeonRoom>();
+        activeDungeonRooms.Add(newRoom);
+        currentRoom = newRoom;
         P.transform.position = NewRoom.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).transform.position;
         return;
     }
