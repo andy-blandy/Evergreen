@@ -36,7 +36,7 @@ public class XPManager : MonoBehaviour
     {
         foreach (GameObject currentOrb in xpPool)
         {
-            if (currentOrb.activeSelf)
+            if (!currentOrb.activeSelf)
             {
                 currentOrb.SetActive(true);
                 return currentOrb;
