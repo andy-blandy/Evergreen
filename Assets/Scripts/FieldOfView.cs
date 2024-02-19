@@ -98,7 +98,7 @@ public class FieldOfView : MonoBehaviour
                     canSeePlayer = false;
                 }
             }
-            if(canSeePlayer == true)
+            if(canSeePlayer )
             {
                 Charge();
             }
@@ -163,14 +163,14 @@ public class FieldOfView : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void OnCollisionEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collider.TryGetComponent<IDamageable>(out IDamageable id))
+        if (collision.gameObject.TryGetComponent<IDamageable>(out IDamageable id))
         {
             float minKnockback = Player.instance.playerAttack.minimumKnockbackAmount;
             float knockbackAmount = Player.instance.playerAttack.knockbackAmount;
 
-            float distanceAway = (collider.transform.position - transform.position).magnitude;
+            float distanceAway = (collision.transform.position - transform.position).magnitude;
             float distModifier = 1 - (distanceAway / 1.4f);
 
             Vector3 knockbackForce = transform.forward * knockbackAmount * distModifier;

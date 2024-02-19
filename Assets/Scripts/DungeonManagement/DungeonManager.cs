@@ -31,6 +31,10 @@ public class DungeonManager : MonoBehaviour
     public float BossRoomChance = 0.00f;
     private bool SpawnShop = false;
 
+    // Room Location
+    public Vector3 RoomLoc = Vector3.zero;
+    public string exitDoorPosition = "";
+
 
     // Singleton
     public static DungeonManager instance;
@@ -40,9 +44,40 @@ public class DungeonManager : MonoBehaviour
         instance = this;
     }
 
+    public void CheckDoorway(Collider P, string enterDoor)
+    {
+        /*
+        * Get the position and doorway location of the next room
+        */
+        switch (enterDoor)
+        {
+            case "north":
+                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z + RoomDistanceApart);
+                exitDoorPosition = "south";
+                break;
+            case "south":
+                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z - RoomDistanceApart);
+                exitDoorPosition = "north";
+                break;
+            case "east":
+                RoomLoc = new Vector3(currentRoom.transform.position.x + RoomDistanceApart, 0, currentRoom.transform.position.z);
+                exitDoorPosition = "west";
+                break;
+            case "west":
+                RoomLoc = new Vector3(currentRoom.transform.position.x - RoomDistanceApart, 0, currentRoom.transform.position.z);
+                exitDoorPosition = "east";
+                break;
+        }
+
+        if (!alreadyActiveRoom(P))
+        {
+            SelectRoom(P);
+        }
+    }
+
     //This will make new rooms depending on which door the player hit in the dungeon
     //For reference child 1 is rooms, child 0 is north, 1 is south, 2 is east, 3 is west
-    public void SelectRoom(Collider P, int x)
+    public void SelectRoom(Collider P)
     {
         randomRoomChoice = Random.Range(0, spawnableRooms.Length);
         randomShopChoice = Random.Range(0, shopRooms.Length);
@@ -74,103 +109,68 @@ public class DungeonManager : MonoBehaviour
         }
         else
         {
-            SpawnRoom(P, x);
+            SpawnRoom(P);
         }
     }
 
-    private void SpawnRoom(Collider P, int x)
+    private void SpawnRoom(Collider P)
     {
-        /*
-         * Get the position and doorway location of the room to spawn
-         */
-        Vector3 RoomLoc = Vector3.zero;
-        string exitDoorPosition = "";
-        switch (x)
-        {
-            case 1:
-                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z + RoomDistanceApart);
-                exitDoorPosition = "south";
-                break;
-            case 2:
-                RoomLoc = new Vector3(currentRoom.transform.position.x, 0, currentRoom.transform.position.z - RoomDistanceApart);
-                exitDoorPosition = "north";
-                break;
-            case 3:
-                RoomLoc = new Vector3(currentRoom.transform.position.x + RoomDistanceApart, 0, currentRoom.transform.position.z);
-                exitDoorPosition = "west";
-                break;
-            case 4:
-                RoomLoc = new Vector3(currentRoom.transform.position.x - RoomDistanceApart, 0, currentRoom.transform.position.z);
-                exitDoorPosition = "east";
-                break;
-        }
 
         /*
          * Spawn the room
          */
         GameObject newRoom;
-        if (!alreadyActiveRoom(RoomLoc, P, x))
+        DungeonRoom room;
+
+        if (SpawnShop == true)
         {
-            DungeonRoom room;
-
-            if (SpawnShop == true)
-            {
-                newRoom = Instantiate(shopRooms[randomShopChoice], RoomLoc, Quaternion.identity);
-                SpawnShop = false;
-            }
-            else
-            {
-                newRoom = Instantiate(spawnableRooms[randomRoomChoice], RoomLoc, Quaternion.identity);
-            }
-
-            room = newRoom.GetComponent<DungeonRoom>();
-            GameObject door = room.GetDoorway(exitDoorPosition);
-            door.SetActive(true);
-
-            RoomsSpawned++;
-            activeDungeonRooms.Add(room);
-            currentRoom = room;
-            P.transform.position = door.transform.GetChild(0).position;
-            return;
+            newRoom = Instantiate(shopRooms[randomShopChoice], RoomLoc, Quaternion.identity);
+            SpawnShop = false;
         }
+        else
+        {
+            newRoom = Instantiate(spawnableRooms[randomRoomChoice], RoomLoc, Quaternion.identity);
+        }
+
+        /*
+         * Add the room to the activeDungeonRooms list
+         */
+        room = newRoom.GetComponent<DungeonRoom>();
+        RoomsSpawned++;
+        activeDungeonRooms.Add(room);
+
+
+        /*
+         * Move the player to the next room, and set the previous room to being inactive
+         */
+        GameObject door = room.GetDoorway(exitDoorPosition);
+        door.SetActive(true);
+        P.transform.position = door.transform.GetChild(0).position;
+        currentRoom.gameObject.SetActive(false);
+        currentRoom = room;
     }
-    
+
 
     //checks to see if the room trying to be spawned is already spawned
-    private bool alreadyActiveRoom(Vector3 t, Collider P, int x)
+    private bool alreadyActiveRoom(Collider P)
     {
         bool RoomSpawned = false;
 
         foreach(DungeonRoom i in activeDungeonRooms)
         {
-            if(i.transform.position == t)
+
+            if(i.transform.position.Equals(RoomLoc))
             {
+                GameObject prevRoom = currentRoom.gameObject;
+                currentRoom = i;
+                currentRoom.gameObject.SetActive(true);
+
                 //Spawns player in the room of an already existing room when they try to traverse backwards
-                if (x == 1) //north
-                {
-                    currentRoom = i;
-                    P.transform.position = currentRoom.GetDoorway("south").transform.position;
-                }
-
-                if (x == 2) //south
-                {
-                    currentRoom = i;
-                    P.transform.position = currentRoom.GetDoorway("north").transform.position;
-                }
-
-                if (x == 3) //east
-                {
-                    currentRoom = i;
-                    P.transform.position = currentRoom.GetDoorway("west").transform.position;
-                }
-
-                if (x == 4) //west
-                {
-                    currentRoom = i;
-                    P.transform.position = currentRoom.GetDoorway("east").transform.position;
-                }
+                P.transform.position = currentRoom.GetDoorway(exitDoorPosition).transform.position;
 
                 RoomSpawned = true;
+
+                prevRoom.SetActive(false);
             }
         }
 

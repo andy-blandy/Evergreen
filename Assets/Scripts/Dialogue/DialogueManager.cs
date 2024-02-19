@@ -75,6 +75,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        Player.instance.FreezePlayer(true);
+
         currentDialogueTree = dialogueTree;
         dialogueUI.SetActive(true);
         inDialogue = true;
@@ -168,6 +170,8 @@ public class DialogueManager : MonoBehaviour
         dialogueUI.SetActive(false);
         inDialogue = false;
         StartCoroutine(DialogueCooldown());
+
+        Player.instance.FreezePlayer(false);
     }
 
     IEnumerator TypeDialogue(string textToType)

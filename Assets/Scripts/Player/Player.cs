@@ -44,6 +44,11 @@ public class Player : MonoBehaviour
     public void FreezePlayer(bool freeze)
     {
         isFrozen = freeze;
+        
+        if (freeze)
+        {
+            playerMovement.ClearInput();
+        }
     }
 
 }

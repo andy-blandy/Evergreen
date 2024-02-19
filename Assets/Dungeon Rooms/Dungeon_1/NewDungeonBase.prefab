@@ -617,8 +617,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   northDoorway: {fileID: 6693285841249484403}
   southDoorway: {fileID: 5525407031017556234}
-  westDoorway: {fileID: 2663093798850599952}
-  eastDoorway: {fileID: 8549227034506485823}
+  westDoorway: {fileID: 8549227034506485823}
+  eastDoorway: {fileID: 2663093798850599952}
 --- !u!114 &4017254910005792518
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -36,10 +36,10 @@ public class PlayerMovement : MonoBehaviour
      */
     void Update()
     {
-        // if (Player.instance.isFrozen)
-        // {
-        //     return;
-        // }
+        if (Player.instance.isFrozen)
+        {
+            return;
+        }
 
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
@@ -123,5 +123,11 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         rb.AddForce(knockback, ForceMode.Impulse);
+    }
+
+    public void ClearInput()
+    {
+        velocity = Vector3.zero;
+        desiredVelocity = Vector3.zero;
     }
 }

@@ -20,9 +20,9 @@ public class DungeonRoom : MonoBehaviour
             case "south":
                 return southDoorway;
             case "east":
-                return westDoorway;
-            case "west":
                 return eastDoorway;
+            case "west":
+                return westDoorway;
             default:
                 Debug.LogAssertion(direction + " is not a valid direction");
                 return null;

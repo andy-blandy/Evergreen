@@ -284,8 +284,8 @@ MonoBehaviour:
   playerInput: {x: 0, y: 0}
   velocity: {x: 0, y: 0, z: 0}
   desiredVelocity: {x: 0, y: 0, z: 0}
-  maxSpeed: 11
-  maxAcceleration: 12
+  maxSpeed: 6
+  maxAcceleration: 21
   dashSpeed: 20
   dashLength: 6
   dashCooldown: 0.5
@@ -321,6 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookPosition: {x: 0, y: 0, z: 0}
   look: {x: 0, y: 0, z: 0}
+  lookRot: {x: 0, y: 0, z: 0, w: 0}
   lookSpeed: 10
 --- !u!114 &1525681765834480208
 MonoBehaviour:

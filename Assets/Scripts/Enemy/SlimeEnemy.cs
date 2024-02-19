@@ -63,7 +63,6 @@ public class SlimeEnemy : EnemyBase
         if (currentPhase > 1)
         {
             currentPhase = 0;
-            Debug.Log("RESET PATH");
             agent.ResetPath();
         }
     }
