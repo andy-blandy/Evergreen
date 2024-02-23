@@ -77,6 +77,7 @@ public class BossManager : MonoBehaviour
     //end the boss fight and spawn a door exit
     private void EndSequence()
     {
+        Debug.Log("End Sequence");
         dungeonClear = false;
         gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
     }

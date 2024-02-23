@@ -74,14 +74,13 @@ GameObject:
   - component: {fileID: 7007618064525409449}
   - component: {fileID: 8212726273416029416}
   - component: {fileID: 407536084432158465}
-  - component: {fileID: 7151736041629476653}
   m_Layer: 0
   m_Name: EastSpawnDoor
   m_TagString: EastDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2852178295322618836
 Transform:
   m_ObjectHideFlags: 0
@@ -169,18 +168,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7151736041629476653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794682863170814683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e343346975d864d9406f17952785fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &796685136264085723
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +553,8 @@ MonoBehaviour:
   - {fileID: 796685136264085723}
   - {fileID: 8552945848836982862}
   - {fileID: 4116175573416449396}
+  aliveEnemies: []
+  dungeonExit: {fileID: 0}
 --- !u!1 &2767876746027377773
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,14 +691,13 @@ GameObject:
   - component: {fileID: 3771804886605739131}
   - component: {fileID: 818816699394082546}
   - component: {fileID: 5945845318520541335}
-  - component: {fileID: 8089565554807868591}
   m_Layer: 0
   m_Name: WestSpawnDoor
   m_TagString: WestDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5856028811802812883
 Transform:
   m_ObjectHideFlags: 0
@@ -797,18 +785,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8089565554807868591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3329133671946768734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e343346975d864d9406f17952785fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3823585833384134959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +1003,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8349612820104994796
 Transform:
   m_ObjectHideFlags: 0
@@ -1322,14 +1298,13 @@ GameObject:
   - component: {fileID: 3915768479047578397}
   - component: {fileID: 752975915088124273}
   - component: {fileID: 9063749151930889963}
-  - component: {fileID: 7254116440978180749}
   m_Layer: 0
   m_Name: SouthSpawnDoor
   m_TagString: SouthDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4671710824935791992
 Transform:
   m_ObjectHideFlags: 0
@@ -1417,18 +1392,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7254116440978180749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5779918219860405067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e343346975d864d9406f17952785fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5898023324931295694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,14 +1404,14 @@ GameObject:
   - component: {fileID: 19560311783667136}
   - component: {fileID: 4049164245576079215}
   - component: {fileID: 2686232032540944656}
-  - component: {fileID: 1679309312701192773}
+  - component: {fileID: 6848875487443608171}
   m_Layer: 0
   m_Name: NorthSpawnDoor
   m_TagString: NorthDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &750168808880411792
 Transform:
   m_ObjectHideFlags: 0
@@ -1536,7 +1499,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1679309312701192773
+--- !u!114 &6848875487443608171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1545,7 +1508,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5898023324931295694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e343346975d864d9406f17952785fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d352478232bfe74781d13d52e0b65b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6883239481502457272
