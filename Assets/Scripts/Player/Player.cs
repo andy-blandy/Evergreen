@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     [Header("Input")]
     public bool isFrozen;
 
+    public AudioSource backgroundMusic;
+
     void Awake()
     {
         instance = this;
@@ -29,6 +31,8 @@ public class Player : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
+
+        backgroundMusic.Play();
     }
 
     public void SetXP(int value)

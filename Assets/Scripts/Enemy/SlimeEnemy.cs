@@ -14,6 +14,8 @@ public class SlimeEnemy : EnemyBase
 
     public int currentPhase;
 
+    public AudioSource damageSFX;
+
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player")
@@ -75,6 +77,8 @@ public class SlimeEnemy : EnemyBase
     public override void Damage(int damage)
     {
         health -= damage;
+
+        damageSFX.Play();
 
         // Set slime to move almost immediately after recovering from stun
         currentPhase = 0;

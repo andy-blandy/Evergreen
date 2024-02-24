@@ -17,6 +17,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Rigidbody rb;
 
+    public AudioSource damageSFX;
+
     public static PlayerHealth instance;
     void Awake()
     {
@@ -35,6 +37,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         health -= damage;
         UpdateHealthUI();
+
+        damageSFX.Play();
 
         if (health <= 0)
         {
