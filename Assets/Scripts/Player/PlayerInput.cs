@@ -10,6 +10,9 @@ public class PlayerInput : MonoBehaviour
     public delegate void BackAction();
     public static event BackAction OnBack;
 
+    public delegate void AltAction();
+    public static event AltAction OnAlt;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -22,6 +25,12 @@ public class PlayerInput : MonoBehaviour
         {
             if (OnBack != null)
                 OnBack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            if (OnAlt != null)
+                OnAlt();
         }
     }
 }

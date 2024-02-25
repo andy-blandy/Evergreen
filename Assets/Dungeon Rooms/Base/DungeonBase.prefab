@@ -1329,6 +1329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756d3c633e796404a9f041bc580716f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomCamera: {fileID: 3244400127083391248}
   northDoorway: {fileID: 2103342139944843203}
   southDoorway: {fileID: 2255917900816326715}
   westDoorway: {fileID: 3894189854767127656}
