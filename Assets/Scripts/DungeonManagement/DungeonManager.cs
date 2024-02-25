@@ -35,6 +35,8 @@ public class DungeonManager : MonoBehaviour
     public Vector3 RoomLoc = Vector3.zero;
     public string exitDoorPosition = "";
 
+    // Room Camera
+    public bool isRoomCameraEnabled;
 
     // Singleton
     public static DungeonManager instance;
