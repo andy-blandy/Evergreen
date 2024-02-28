@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class Room
 {
+    public Vector2Int pos;
     public int xPos;
     public int yPos;
     public int depth;
 
+    /*
+     * 0 = Combat
+     * 1 = Shop
+     * 2 = Boss
+     */
     public int roomType;
+
+    public DungeonRoom dungeonRoom;
+    public GameObject gameObject;
 
      /*
      * 0 = up
@@ -21,6 +30,7 @@ public class Room
     public Room()
     {
         xPos = 0; yPos = 0;
+        pos = Vector2Int.zero;
         depth = 0;
 
         adjRooms = new Dictionary<int, Room>();
@@ -30,6 +40,7 @@ public class Room
     {
         xPos = x;
         yPos = y;
+        pos = new Vector2Int(x, y);
 
         adjRooms = new Dictionary<int, Room>();
     }
@@ -39,6 +50,7 @@ public class Room
         xPos = x;
         yPos = y;
         this.depth = depth;
+        pos = new Vector2Int(x, y);
 
         adjRooms = new Dictionary<int, Room>();
     }

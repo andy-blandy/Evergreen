@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RoomGeneration))]
 public class DungeonGeneration : MonoBehaviour
 {
     public int minNumOfRooms = 7;
@@ -10,30 +11,41 @@ public class DungeonGeneration : MonoBehaviour
     public int roomCount = 0;
     public float probOfGeneratingRoom = 0.5f;
 
-    private Queue<Room> unvisitedDungeonRooms;
-    private List<Room> dungeonRooms;
+    public Vector2Int dungeonSize;
+    public Vector3 dungeonSpawnLocation;
+    public Vector2 roomSize = new Vector2(60, 60);
 
-    void Start()
+    private Dictionary<Vector2Int, Room> roomGrid;
+    private Queue<Room> unvisitedDungeonRooms;
+    private List<Room> newDungeon;
+
+    private RoomGeneration roomGeneration;
+
+    void Awake()
     {
-        StartDungeonGeneration();
-        RoomGeneration.instance.SpawnDungeon(dungeonRooms);
+        roomGeneration = GetComponent<RoomGeneration>();
     }
 
-
-
-    public List<Room> StartDungeonGeneration()
+    public List<Room> StartDungeonGeneration(bool spawnDungeon)
     {
+        roomGrid = new Dictionary<Vector2Int, Room>();
         unvisitedDungeonRooms = new Queue<Room>();
-        dungeonRooms = new List<Room>();
+        newDungeon = new List<Room>();
 
         // Create initial room
         Room firstRoom = new Room();
+        roomGrid.Add(firstRoom.pos, firstRoom);
         roomCount++;
         unvisitedDungeonRooms.Enqueue(firstRoom);
 
         GenerateDungeon();
 
-        return dungeonRooms;
+        if (spawnDungeon)
+        {
+            SpawnDungeon(newDungeon);
+        }
+
+        return newDungeon;
     }
 
     void GenerateDungeon()
@@ -46,7 +58,7 @@ public class DungeonGeneration : MonoBehaviour
         // Redo generation if not enough rooms created
         if (roomCount < minNumOfRooms)
         {
-            foreach (Room room in dungeonRooms)
+            foreach (Room room in newDungeon)
             {
                 unvisitedDungeonRooms.Enqueue(room);
             }
@@ -80,9 +92,9 @@ public class DungeonGeneration : MonoBehaviour
             }
         }
 
-        if (!dungeonRooms.Contains(curRoom))
+        if (!newDungeon.Contains(curRoom))
         {
-            dungeonRooms.Add(curRoom);
+            newDungeon.Add(curRoom);
         }
     }
 
@@ -106,6 +118,10 @@ public class DungeonGeneration : MonoBehaviour
             case 1:
                 newYPos--;
                 oppDir = 0;
+                if (newYPos < 0)
+                {
+                    return;
+                }
                 break;
             case 2:
                 newXPos--;
@@ -117,9 +133,16 @@ public class DungeonGeneration : MonoBehaviour
                 break;
         }
 
+        Vector2Int newPos = new Vector2Int(newXPos, newYPos);
+        if (roomGrid.ContainsKey(newPos))
+        {
+            return;
+        }
+
         Room newRoom = new Room(newXPos, newYPos, prevRoom.depth + 1);
         prevRoom.adjRooms.Add(dir, newRoom);
         newRoom.adjRooms.Add(oppDir, prevRoom);
+        roomGrid.Add(newRoom.pos, newRoom);
 
         unvisitedDungeonRooms.Enqueue(newRoom);
         roomCount++;
@@ -137,7 +160,7 @@ public class DungeonGeneration : MonoBehaviour
         Room deepestRoom = null;
         List<Room> shopChoices = new List<Room>();
 
-        foreach (Room room in dungeonRooms)
+        foreach (Room room in newDungeon)
         {
             room.roomType = 0;
 
@@ -164,5 +187,23 @@ public class DungeonGeneration : MonoBehaviour
 
         // Set boss room
         deepestRoom.roomType = 2;
+    }
+
+    public void SpawnDungeon(List<Room> dungeonRooms)
+    {
+        foreach (Room room in dungeonRooms)
+        {
+            roomGeneration.SpawnRoom(room, dungeonSpawnLocation);
+            //room.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawSphere(dungeonSpawnLocation, 1f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(dungeonSpawnLocation, new Vector3(roomSize.x, 0f, roomSize.y));
     }
 }

@@ -7,22 +7,30 @@ public class DungeonRoom : MonoBehaviour
 {
     public CinemachineVirtualCamera roomCamera;
     public GameObject northDoorway, southDoorway, westDoorway, eastDoorway;
-
-    public void OnEnable()
-    {
-        PlayerInput.OnAlt += SwitchCameraActive;
-
-        // EnterRoom();
-    }
-
-    public void OnDisable()
-    {
-        PlayerInput.OnAlt += SwitchCameraActive;
-    }
+    public List<GameObject> enemies;
 
     public void EnterRoom()
     {
-        roomCamera.gameObject.SetActive(DungeonManager.instance.isRoomCameraEnabled);
+        roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
+        PlayerInput.OnAlt += SwitchCameraActive;
+
+        ActivateEnemies(true);
+    }
+
+    public void ExitRoom()
+    {
+        roomCamera.gameObject.SetActive(false);
+        PlayerInput.OnAlt -= SwitchCameraActive;
+
+        ActivateEnemies(false);
+    }
+
+    public void ActivateEnemies(bool active)
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].SetActive(active);
+        }
     }
 
 
@@ -91,21 +99,24 @@ public class DungeonRoom : MonoBehaviour
         }
 
         roomCamera.gameObject.SetActive(!roomCamera.gameObject.activeSelf);
-        DungeonManager.instance.isRoomCameraEnabled = roomCamera.gameObject.activeSelf;
+        NewDungeonManager.instance.isRoomCameraEnabled = roomCamera.gameObject.activeSelf;
     }
 
+    #region Room Gen
     public void CreateBarrier(int dir, bool hasDoor)
     {
+        // Get the pos and rotation of each barrier
         Vector3 pos = transform.position;
-        pos.y = 5;
+        Quaternion rot = Quaternion.identity;
         Vector3 scale = new Vector3(30, 10, 30);
-        float doorSize = 1f;
+        float doorSize = 3f;
 
         switch (dir)
         {
             case 0:
                 pos.z = pos.z + 15;
                 scale.z = 1;
+                rot = Quaternion.Euler(0f, 180f, 0f);
                 break;
             case 1:
                 pos.z = pos.z - 15;
@@ -114,13 +125,27 @@ public class DungeonRoom : MonoBehaviour
             case 2:
                 pos.x = pos.x - 15;
                 scale.x = 1;
+                rot = Quaternion.Euler(0f, 90f, 0f);
                 break;
             case 3:
                 pos.x = pos.x + 15;
                 scale.x = 1;
+                rot = Quaternion.Euler(0f, 270f, 0f);
                 break;
         }
 
+        /*
+         * Spawn trees
+         */
+        GameObject trees = CreateTreeLine(15f);
+        pos.y = 0;
+        trees.transform.position = pos;
+        trees.transform.rotation = rot;
+
+        /*
+         * Create the invisible borders of each room
+         */
+        pos.y = 5;
         if (!hasDoor)
         {
             CreateCollider(pos, scale);
@@ -148,9 +173,55 @@ public class DungeonRoom : MonoBehaviour
 
             CreateCollider(pos, scale);
             CreateCollider(pos2, scale);
+
+            for (int i = 0; i < 5; i++)
+            {
+                trees.transform.GetChild(i).gameObject.SetActive(false);
+            }
         }
 
 
+    }
+
+    public GameObject CreateTreeLine(float length)
+    {
+        GameObject treeLine = new GameObject();
+        treeLine.name = "Trees";
+        treeLine.transform.SetParent(this.transform);
+
+        /*
+         * Spawn trees in a straight line
+         */
+        GameObject tree = RoomGeneration.instance.barrierTree;
+        int numOfTrees = Mathf.RoundToInt(length / 2.5f);
+        GameObject firstTree = Instantiate(tree, new Vector3(0f, 0f, 0.5f), Quaternion.identity);
+        firstTree.transform.parent = treeLine.transform;
+        for (int i = 1; i < numOfTrees; i++)
+        {
+            float newX = 0;
+            float newZ = 0;
+
+            if (i % 2 == 0)
+            {
+                newZ = 0.5f;
+            } else
+            {
+                newZ = 2.5f;
+            }
+
+            newX = 2.5f * i;
+
+            Vector3 newPos = new Vector3(newX, 0f, newZ);
+            GameObject newTreeRight = Instantiate(tree, newPos, Quaternion.identity);
+            newPos.x *= -1;
+            GameObject newTreeLeft = Instantiate(tree, newPos, Quaternion.identity);
+
+            // Add trees to tree line
+            newTreeLeft.transform.SetParent(treeLine.transform);
+            newTreeRight.transform.SetParent(treeLine.transform);
+        }
+
+        return treeLine;
     }
 
     public GameObject CreateCollider(Vector3 center, Vector3 size)
@@ -164,4 +235,5 @@ public class DungeonRoom : MonoBehaviour
 
         return newBarrier;
     }
+    #endregion
 }

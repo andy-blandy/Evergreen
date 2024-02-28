@@ -503,7 +503,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042307426}
-  - component: {fileID: 1042307425}
+  - component: {fileID: 1042307429}
+  - component: {fileID: 1042307428}
+  - component: {fileID: 1042307427}
   m_Layer: 0
   m_Name: DungeonSpawner
   m_TagString: DungeonManager
@@ -511,35 +513,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1042307425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042307424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c117799be940db4285d1c05ac849018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FirstDungeonRoom: {fileID: 170889773}
-  RoomDistanceApart: 45
-  RoomsSpawned: 0
-  ShopsSpawned: 0
-  DungeonBase: {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
-  spawnableRooms:
-  - {fileID: 8200311025113934330, guid: d204a185117b21d45b1b49d0a42bafba, type: 3}
-  - {fileID: 1681175592718720730, guid: 351b1b7058f0f1a429d07fcccc79b754, type: 3}
-  shopRooms:
-  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
-  bossRoom: {fileID: 2701616643084903231, guid: fd55aa7e9f74dd749bc95b96e9c2d1f1, type: 3}
-  activeDungeonRooms: []
-  randomRoomChoice: 0
-  randomShopChoice: 0
-  BossRoomChance: 0
-  RoomLoc: {x: 0, y: 0, z: 0}
-  exitDoorPosition: 
 --- !u!4 &1042307426
 Transform:
   m_ObjectHideFlags: 0
@@ -557,6 +530,63 @@ Transform:
   - {fileID: 1666157034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1042307427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042307424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4bfe404b8481c4781fd9b50a1a6f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRoomCameraEnabled: 0
+--- !u!114 &1042307428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042307424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44be7754a9b04604397f007b9c864cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minNumOfRooms: 7
+  maxNumOfRooms: 10
+  roomCount: 0
+  probOfGeneratingRoom: 0.5
+  dungeonSize: {x: 0, y: 0}
+  dungeonSpawnLocation: {x: 0, y: 0, z: 44.95}
+  roomSize: {x: 30, y: 30}
+--- !u!114 &1042307429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042307424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed436915f82008748a35145dc2d7805a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPrefabs:
+  - {fileID: 4204904744280929666, guid: 1b6bcf2687a75f8488e3083c987e906e, type: 3}
+  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
+  - {fileID: 1681175592718720730, guid: 351b1b7058f0f1a429d07fcccc79b754, type: 3}
+  combatRooms:
+  - {fileID: 1681175592718720730, guid: 351b1b7058f0f1a429d07fcccc79b754, type: 3}
+  - {fileID: 497557056947070089, guid: 03b45853c96b0474dbed13d3c07038cd, type: 3}
+  shopRooms:
+  - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
+  bossDoor: {fileID: 4204904744280929666, guid: 1b6bcf2687a75f8488e3083c987e906e, type: 3}
+  bossRoom: {fileID: 0}
+  roomSize: 30
+  barrierTree: {fileID: 6941765000743290380, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
 --- !u!1 &1497930376
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1666157034
 Transform:
   m_ObjectHideFlags: 0
