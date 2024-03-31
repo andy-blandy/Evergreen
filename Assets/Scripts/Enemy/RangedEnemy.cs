@@ -21,12 +21,10 @@ public class RangedEnemy : EnemyBase
     private GameObject projectile;
     [SerializeField]
     private float fireRate = 2f;
-    private float timedBullets;
+    public float bulletTimer;
 
     protected override void EnemyUpdate()
     {
-        timedBullets += Time.deltaTime;
-
         // State controller based on enemy's distance from player
         playerPos = Player.instance.transform.position;
         float distanceFromPlayer = (transform.position - playerPos).magnitude;
@@ -71,12 +69,14 @@ public class RangedEnemy : EnemyBase
 
     void Attack()
     {
+        bulletTimer += Time.deltaTime;
+
         LookAtPlayer();
         agent.isStopped = true;
 
-        if (timedBullets > fireRate)
+        if (bulletTimer > fireRate)
         {
-            timedBullets = 0;
+            bulletTimer = 0;
             Instantiate(projectile, BulletSpawn.transform.position, gameObject.transform.rotation);
         }
     }

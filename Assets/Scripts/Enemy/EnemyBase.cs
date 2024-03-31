@@ -32,6 +32,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (Player.instance == null)
+        {
+            return;
+        }
+
         if (isStunned)
         {
             Stunned();
