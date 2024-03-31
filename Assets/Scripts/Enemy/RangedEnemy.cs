@@ -23,6 +23,9 @@ public class RangedEnemy : EnemyBase
     private float fireRate = 2f;
     public float bulletTimer;
 
+    // Audio
+    public AudioSource shootSFX;
+
     protected override void EnemyUpdate()
     {
         // State controller based on enemy's distance from player
@@ -76,6 +79,7 @@ public class RangedEnemy : EnemyBase
 
         if (bulletTimer > fireRate)
         {
+            shootSFX.Play();
             bulletTimer = 0;
             Instantiate(projectile, BulletSpawn.transform.position, gameObject.transform.rotation);
         }

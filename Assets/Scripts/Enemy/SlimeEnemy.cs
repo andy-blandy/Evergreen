@@ -15,6 +15,7 @@ public class SlimeEnemy : EnemyBase
     public int currentPhase;
 
     public AudioSource damageSFX;
+    public AudioSource deathSFX;
 
     void OnCollisionEnter(Collision other)
     {
@@ -71,6 +72,7 @@ public class SlimeEnemy : EnemyBase
 
     void Move()
     {
+        deathSFX.Play();
         agent.SetDestination(Player.instance.transform.position);
     }
 
@@ -86,6 +88,7 @@ public class SlimeEnemy : EnemyBase
 
         if (health <= 0)
         {
+            damageSFX.Play();
             Kill();
         }
     }
