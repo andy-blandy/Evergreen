@@ -11,7 +11,7 @@ public class DungeonRoom : MonoBehaviour
 
     public void EnterRoom()
     {
-        roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
+        //roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
         PlayerInput.OnAlt += SwitchCameraActive;
 
         ActivateEnemies(true);

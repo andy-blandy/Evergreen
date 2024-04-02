@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowEnemy : EnemyBase
+public class BeaverEnemy : EnemyBase
 {
-    [SerializeField, Range(0f, 20f)]
-    private float followRange = 10f;
+    [SerializeField, Range(0f, 50f)]
+    private float followRange = 40f;
     [SerializeField, Range(0f, 20f)]
     private float attackRange = 3f;
 
+    [Header("Attack")]
+    public Animator animator;
+    public float attackTimer;
+    public float timeBetweenAttacks = 2f;
+
+
     private Vector3 playerPos;
 
-    void Start()
-    {
-        agent.stoppingDistance = attackRange;
-    }
 
     protected override void EnemyUpdate()
     {
@@ -38,9 +40,7 @@ public class FollowEnemy : EnemyBase
     {
         agent.isStopped = true;
 
-        /*
-         * Insert idle behavior here
-         */
+        animator.SetBool("walking", false);
     }
 
     void Follow()
@@ -50,6 +50,11 @@ public class FollowEnemy : EnemyBase
             agent.isStopped = false;
         }
 
+        // Update animation
+        if (!animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", true);
+        }
 
         Debug.Log("FOLLOWING");
         LookAtPlayer();
@@ -58,11 +63,24 @@ public class FollowEnemy : EnemyBase
 
     void Attack()
     {
+        if (animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", false);
+        }
+
         LookAtPlayer();
 
-        /*
-         * Insert attack behavior here
-         */
+        attackTimer -= Time.deltaTime;
+        if (attackTimer < 0)
+        {
+            FrontAttack();
+            attackTimer = timeBetweenAttacks;
+        }
+    }
+
+    void FrontAttack()
+    {
+        animator.SetBool("attack", true);
     }
 
     private void OnDrawGizmosSelected()
