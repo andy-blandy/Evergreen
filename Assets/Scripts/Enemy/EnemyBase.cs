@@ -9,6 +9,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected NavMeshAgent agent;
     protected Rigidbody rb;
 
+    public delegate void DeathAction();
+    public static event DeathAction OnDeath;
+
+    public bool isDefeated;
+
     public int health { get; set; }
     public int startingHealth;
 
@@ -77,8 +82,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void Kill()
     {
+        isDefeated = true;
+
         gameObject.SetActive(false);
         XPManager.instance.SpawnXP(transform.position);
+        OnDeath();
     }
 
     /*

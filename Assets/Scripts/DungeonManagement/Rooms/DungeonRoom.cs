@@ -6,13 +6,28 @@ using UnityEngine;
 public class DungeonRoom : MonoBehaviour
 {
     public CinemachineVirtualCamera roomCamera;
-    public GameObject northDoorway, southDoorway, westDoorway, eastDoorway;
-    public List<GameObject> enemies;
+    public GameObject northLockedDoor, southLockedDoor, westLockedDoor, eastLockedDoor;
+    public List<EnemyBase> enemies;
 
-    public void EnterRoom()
+    [Header("Room Variables")]
+    public bool[] isDoorway = new bool[4];
+    public bool allEnemiesDefeated;
+
+    [Header("Room Settings")]
+    public bool lockRoomOnEnter;
+    public bool unlockRoomWhenEnemiesCleared;
+
+
+    public virtual void EnterRoom()
     {
         //roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
         PlayerInput.OnAlt += SwitchCameraActive;
+        EnemyBase.OnDeath += ReviewEnemies;
+
+        if (lockRoomOnEnter && !allEnemiesDefeated)
+        {
+            LockRoom(true);
+        }
 
         ActivateEnemies(true);
     }
@@ -21,18 +36,54 @@ public class DungeonRoom : MonoBehaviour
     {
         roomCamera.gameObject.SetActive(false);
         PlayerInput.OnAlt -= SwitchCameraActive;
+        EnemyBase.OnDeath -= ReviewEnemies;
 
         ActivateEnemies(false);
+    }
+
+    public void SpawnEnemies()
+    {
+        // TO-DO: Add code to spawn new enemies
+
+        allEnemiesDefeated = false;
     }
 
     public void ActivateEnemies(bool active)
     {
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].SetActive(active);
+            enemies[i].gameObject.SetActive(active);
         }
     }
 
+    private void ReviewEnemies()
+    {
+        for (int i = enemies.Count; i > 0; i--)
+        {
+            if (enemies[i].isDefeated)
+            {
+                enemies.RemoveAt(i);
+            }
+        }
+
+        if (enemies.Count == 0)
+        {
+            allEnemiesDefeated = true;
+
+            if (unlockRoomWhenEnemiesCleared)
+            {
+                LockRoom(false);
+            }
+        }
+    }
+
+    public void KillAllEnemies()
+    {
+        for (int i = 0;i < enemies.Count; i++)
+        {
+            enemies[i].Kill();
+        }
+    }
 
     /// <summary>
     /// Returns the doorway corresponding to the direction given in string form.
@@ -44,13 +95,13 @@ public class DungeonRoom : MonoBehaviour
         switch (direction)
         {
             case "north":
-                return northDoorway;
+                return northLockedDoor;
             case "south":
-                return southDoorway;
+                return southLockedDoor;
             case "east":
-                return eastDoorway;
+                return eastLockedDoor;
             case "west":
-                return westDoorway;
+                return westLockedDoor;
             default:
                 Debug.LogAssertion(direction + " is not a valid direction");
                 return null;
@@ -67,13 +118,13 @@ public class DungeonRoom : MonoBehaviour
         switch (direction)
         {
             case 0:
-                return northDoorway;
+                return northLockedDoor;
             case 1:
-                return southDoorway;
+                return southLockedDoor;
             case 2:
-                return westDoorway;
+                return westLockedDoor;
             case 3:
-                return eastDoorway;
+                return eastLockedDoor;
             default:
                 Debug.LogAssertion(direction + " is not a valid direction");
                 return null;
@@ -102,9 +153,26 @@ public class DungeonRoom : MonoBehaviour
         NewDungeonManager.instance.isRoomCameraEnabled = roomCamera.gameObject.activeSelf;
     }
 
+    /// <summary>
+    /// Locks room if true is passed through, unlocks room otherwise
+    /// </summary>
+    /// <param name="setActive"></param>
+    public void LockRoom(bool isLocking)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (isDoorway[i])
+            {
+                GetDoorway(i).SetActive(isLocking);
+            }
+        }
+    }
+
     #region Room Gen
     public void CreateBarrier(int dir, bool hasDoor)
     {
+        isDoorway[dir] = hasDoor;
+
         // Get the pos and rotation of each barrier
         Vector3 pos = transform.position;
         Quaternion rot = Quaternion.identity;

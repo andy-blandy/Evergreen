@@ -56,7 +56,6 @@ public class BeaverEnemy : EnemyBase
             animator.SetBool("walking", true);
         }
 
-        Debug.Log("FOLLOWING");
         LookAtPlayer();
         agent.destination = playerPos;
     }

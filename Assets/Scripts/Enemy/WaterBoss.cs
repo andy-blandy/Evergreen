@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class WaterBoss : EnemyBase
 {
-
+    [Header("References")]
     public Animator animator;
+    public DungeonRoom room;
 
     [Header("UI")]
     public Slider healthBar;
@@ -83,6 +84,14 @@ public class WaterBoss : EnemyBase
                 MoveToWaypoint();
                 break;
         }
+    }
+
+    public override void Kill()
+    {
+        gameObject.SetActive(false);
+
+        room.LockRoom(false);
+        room.KillAllEnemies();
     }
 
     private void OnGuard()
