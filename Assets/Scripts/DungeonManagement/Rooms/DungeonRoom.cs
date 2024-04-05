@@ -7,7 +7,7 @@ public class DungeonRoom : MonoBehaviour
 {
     public CinemachineVirtualCamera roomCamera;
     public GameObject northLockedDoor, southLockedDoor, westLockedDoor, eastLockedDoor;
-    public List<EnemyBase> enemies;
+    public List<GameObject> enemies;
 
     [Header("Room Variables")]
     public bool[] isDoorway = new bool[4];
@@ -52,15 +52,16 @@ public class DungeonRoom : MonoBehaviour
     {
         for (int i = 0; i < enemies.Count; i++)
         {
+            Debug.Log(enemies[i]);
             enemies[i].gameObject.SetActive(active);
         }
     }
 
     private void ReviewEnemies()
     {
-        for (int i = enemies.Count; i > 0; i--)
+        for (int i = enemies.Count - 1; i > 0; i--)
         {
-            if (enemies[i].isDefeated)
+            if (enemies[i].GetComponent<EnemyBase>().isDefeated)
             {
                 enemies.RemoveAt(i);
             }
@@ -81,7 +82,7 @@ public class DungeonRoom : MonoBehaviour
     {
         for (int i = 0;i < enemies.Count; i++)
         {
-            enemies[i].Kill();
+            enemies[i].GetComponent<EnemyBase>().Kill();
         }
     }
 

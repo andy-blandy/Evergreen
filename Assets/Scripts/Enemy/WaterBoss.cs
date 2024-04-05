@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class WaterBoss : EnemyBase
 {
+    [Header("Victory Loot")]
+    public GameObject loot;
+    public Transform lootSpawnLocation;
+
     [Header("References")]
     public Animator animator;
     public DungeonRoom room;
@@ -91,7 +95,8 @@ public class WaterBoss : EnemyBase
         gameObject.SetActive(false);
 
         room.LockRoom(false);
-        room.KillAllEnemies();
+        //room.KillAllEnemies();
+        Instantiate(loot, lootSpawnLocation.position, Quaternion.identity);
     }
 
     private void OnGuard()
