@@ -82,7 +82,15 @@ public class DungeonRoom : MonoBehaviour
     {
         for (int i = 0;i < enemies.Count; i++)
         {
-            enemies[i].GetComponent<EnemyBase>().Kill();
+            EnemyBase enemyScript = enemies[i].GetComponent<EnemyBase>();
+
+            // Make sure enemy hasn't been killed already
+            if (enemyScript.isDefeated)
+            {
+                continue;
+            }
+
+            enemyScript.Kill();
         }
     }
 

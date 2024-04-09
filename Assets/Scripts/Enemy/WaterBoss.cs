@@ -92,10 +92,11 @@ public class WaterBoss : EnemyBase
 
     public override void Kill()
     {
+        isDefeated = true;
         gameObject.SetActive(false);
 
         room.LockRoom(false);
-        //room.KillAllEnemies();
+        room.KillAllEnemies();
         Instantiate(loot, lootSpawnLocation.position, Quaternion.identity);
     }
 

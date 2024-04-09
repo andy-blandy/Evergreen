@@ -5,17 +5,17 @@ using UnityEngine;
 public class ShopCamera : MonoBehaviour
 {
     public List<GameObject> cameras = new List<GameObject>();
-    private int activeCamera;
+    private int activeCameraIndex;
     
-    public void Enter()
+    public void ActivateCameras()
     {
         cameras[0].SetActive(true);
-        activeCamera = 0;
+        activeCameraIndex = 0;
     }
 
-    public void Exit()
+    public void DeactivateCameras()
     {
-        cameras[activeCamera].SetActive(false);
+        cameras[activeCameraIndex].SetActive(false);
     }
 
     public void SwitchCamera(int newCamera)
@@ -27,12 +27,12 @@ public class ShopCamera : MonoBehaviour
         }
 
         cameras[newCamera].SetActive(true);
-        cameras[activeCamera].SetActive(false);
-        activeCamera = newCamera;
+        cameras[activeCameraIndex].SetActive(false);
+        activeCameraIndex = newCamera;
     }
     
     public int GetActiveCamera()
     {
-        return activeCamera;
+        return activeCameraIndex;
     }
 }

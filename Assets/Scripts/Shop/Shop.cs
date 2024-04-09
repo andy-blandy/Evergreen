@@ -7,9 +7,12 @@ public class Shop : MonoBehaviour
     private ShopCamera shopCamera;
     public GameObject trigger;
 
+    public ShopItem rerollItem;
     public List<ShopItem> allShopItems;
     public int totalNumOfItems;
     private List<ShopItem> shopItems;
+
+    public List<ItemAnimation> flowerModels;
 
     private bool inShop;
 
@@ -79,13 +82,29 @@ public class Shop : MonoBehaviour
             choices.Remove(randomChoice);
             shopItems.Add(allShopItems[randomChoice]);
         }
+
+        shopItems.Add(rerollItem);
+        foreach(ItemAnimation flower in flowerModels)
+        {
+            flower.flowerBaseAnimator.SetTrigger("GrowFlower");
+        }
+    }
+
+    public void Reroll()
+    {
+        foreach(ItemAnimation flower in flowerModels)
+        {
+            flower.flowerPetalsAnimator.SetTrigger("Close");
+            flower.flowerBaseAnimator.SetTrigger("RemoveFlower");
+        }
+        GetRandomItems();
     }
 
     public void EnterShop()
     {
         StartCoroutine(SetInShop(true));
 
-        shopCamera.Enter();
+        shopCamera.ActivateCameras();
         trigger.SetActive(false);
         curItemIndex = 0;
 
@@ -99,7 +118,7 @@ public class Shop : MonoBehaviour
     {
         StartCoroutine(SetInShop(false));
 
-        shopCamera.Exit();
+        shopCamera.DeactivateCameras();
         trigger.SetActive(true);
 
         Player.instance.FreezePlayer(false);
@@ -116,7 +135,7 @@ public class Shop : MonoBehaviour
     void NextItem()
     {
         curItemIndex++;
-        if (curItemIndex == totalNumOfItems)
+        if (curItemIndex == totalNumOfItems + 1)
         {
             curItemIndex = 0;
         }
@@ -130,7 +149,7 @@ public class Shop : MonoBehaviour
         curItemIndex--;
         if (curItemIndex < 0)
         {
-            curItemIndex = totalNumOfItems - 1;
+            curItemIndex = totalNumOfItems;
         }
 
         shopCamera.SwitchCamera(curItemIndex);
@@ -147,13 +166,12 @@ public class Shop : MonoBehaviour
             return;
         }
 
-        if (curItem.stat == StatManager.StatType.Health &&
-            Player.instance.playerHealth.health >= Player.instance.playerHealth.maxHealth)
-        {
-            return;
-        }
-
+        curItem.Use();
         Player.instance.SetXP(Player.instance.xp - curItem.cost);
-        StatManager.instance.UpgradeStat(curItem.stat, curItem.statChange);
+
+        if (curItemIndex < flowerModels.Count)
+        {
+            flowerModels[curItemIndex].flowerPetalsAnimator.SetTrigger("Bloom");
+        }
     }
 }
