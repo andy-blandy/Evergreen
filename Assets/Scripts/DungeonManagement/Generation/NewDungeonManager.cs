@@ -27,5 +27,14 @@ public class NewDungeonManager : MonoBehaviour
         isRoomCameraEnabled = true;
     }
 
+    public void GenerateNewDungeon()
+    {
+        foreach (Room room in dungeon)
+        {
+            Destroy(room.gameObject);
+        }
+
+        dungeon = dungeonGeneration.StartDungeonGeneration(true);
+    }
 
 }

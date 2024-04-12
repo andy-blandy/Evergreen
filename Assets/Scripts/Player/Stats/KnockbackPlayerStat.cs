@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnockbackPlayerStat : PlayerStat
+public class KnockbackPlayerStat : PlayerUpgrade
 {
-    public override void SetStat(float num)
+    public override void SetBonus(float num)
     {
         Player.instance.playerAttack.knockbackAmount = num;
     }
 
-    public override void Upgrade(float num)
+    public override void AddToBonus(float num)
     {
         Player.instance.playerAttack.knockbackAmount += num;
     }

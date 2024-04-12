@@ -32,7 +32,6 @@ public class BulletMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Player");
             other.gameObject.GetComponent<PlayerHealth>().Damage(dmg);
         }
 

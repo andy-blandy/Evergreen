@@ -182,8 +182,11 @@ public class DungeonGeneration : MonoBehaviour
         {
             shopChoices.Remove(deepestRoom);
         }
-        int randomIndex = UnityEngine.Random.Range(0, shopChoices.Count - 1);
-        shopChoices[randomIndex].roomType = 1;
+        if (shopChoices.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, shopChoices.Count - 1);
+            shopChoices[randomIndex].roomType = 1;
+        }
 
         // Set boss room
         deepestRoom.roomType = 2;
