@@ -116,6 +116,11 @@ public class Shop : MonoBehaviour
 
     public void ExitShop()
     {
+        if (!inShop)
+        {
+            return;
+        }
+
         StartCoroutine(SetInShop(false));
 
         shopCamera.DeactivateCameras();
@@ -130,6 +135,7 @@ public class Shop : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         inShop = value;
+        Player.instance.inShop = value;
     }
 
     void NextItem()

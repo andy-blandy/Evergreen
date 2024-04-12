@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     [Header("Input")]
     public bool isFrozen;
+    public bool inShop;
 
     void Awake()
     {
@@ -43,9 +44,11 @@ public class Player : MonoBehaviour
 
     public void FreezePlayer(bool freeze)
     {
+        Debug.Log("FREEZING PLAYER");
+
         isFrozen = freeze;
         
-        if (freeze)
+        if (freeze && Time.timeScale > 0.0f)
         {
             playerMovement.ClearInput();
         }
