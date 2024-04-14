@@ -61,8 +61,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void Kill()
     {
-        // Respawn player
-        Debug.Log("Player has died");
+        // TO-DO: Play death animation
+
+        // Reset the player's upgrades
+        UpgradeManager.instance.ResetUpgrades();
+
+        // Randomize the dungeon
+        NewDungeonManager.instance.GenerateNewDungeon();
+
+        // Respawn the player
+        Respawn();
+    }
+
+    void Respawn()
+    {
         health = maxHealth;
         UpdateHealthUI();
 
