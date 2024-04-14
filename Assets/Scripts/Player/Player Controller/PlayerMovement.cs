@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     public bool dashCooling;
     public Vector3 endOfDashPos;
 
+    [Header("Animator")]
+    public Animator lowerBodyAnimator;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -46,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
         playerInput = Vector2.ClampMagnitude(playerInput, 1f);
 
         desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
+
+        SetMovementAnimation();
+
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !dashCooling)
         {
@@ -80,6 +86,14 @@ public class PlayerMovement : MonoBehaviour
         velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
 
         rb.velocity = velocity;
+    }
+
+    void SetMovementAnimation()
+    {
+        float angleBetweenMoveAndAim = Vector3.Angle(desiredVelocity, transform.forward);
+
+        lowerBodyAnimator.SetFloat("velocity", velocity.magnitude);
+        lowerBodyAnimator.SetFloat("lookAngle", angleBetweenMoveAndAim);
     }
 
     /*
@@ -125,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(knockback, ForceMode.Impulse);
     }
 
-    public void ClearInput()
+    public void ClearVelocity()
     {
         velocity = Vector3.zero;
         desiredVelocity = Vector3.zero;

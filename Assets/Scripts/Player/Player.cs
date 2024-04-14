@@ -44,13 +44,12 @@ public class Player : MonoBehaviour
 
     public void FreezePlayer(bool freeze)
     {
-        Debug.Log("FREEZING PLAYER");
-
         isFrozen = freeze;
         
+        // Stops all of the player's velocity, but not when the game is paused
         if (freeze && Time.timeScale > 0.0f)
         {
-            playerMovement.ClearInput();
+            playerMovement.ClearVelocity();
         }
     }
 
