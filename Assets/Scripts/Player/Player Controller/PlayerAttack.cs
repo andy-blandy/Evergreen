@@ -10,16 +10,16 @@ public class PlayerAttack : MonoBehaviour
     public float knockbackAmount = 10f;
 
     public float attackLength;
-    public GameObject attackHitbox;
     public Coroutine attackCoroutine;
-    public bool isAttacking;
+    bool isAttacking;
+
+    public Animator upperBodyAnimator;
 
     public AudioSource attackSFX;
 
     void Start()
     {
         isAttacking = false;
-        attackHitbox.SetActive(false);
     }
 
     void Update()
@@ -39,25 +39,45 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!isAttacking)
         {
-            StartCoroutine(AttackAnimation());
+            // Choose a random arm to punch with
+            float choice = Random.Range(0f, 1f);
+            if (choice < 0.5f)
+            {
+                upperBodyAnimator.SetBool("leftPunch", true);
+            } else
+            {
+                upperBodyAnimator.SetBool("leftPunch", false);
+            }
 
             // Audio
             attackSFX.Play();
         }
+
+        upperBodyAnimator.SetTrigger("Punch");
     }
 
-    /*
-     * This will probably be changed once we have a character model with attack animations implemented
-     * Activates the attack hitbox for the attack length
-     */
-    IEnumerator AttackAnimation()
+    // 1 = left punch, 0 = right punch
+    public void SetNextPunch(int punchChoice)
     {
-        isAttacking = true;
-        attackHitbox.SetActive(true);
+        if (punchChoice == 1)
+        {
+            upperBodyAnimator.SetBool("leftPunch", true);
+        }
+        else if (punchChoice == 0)
+        {
+            upperBodyAnimator.SetBool("leftPunch", false);
+        }
+    }
 
-        yield return new WaitForSeconds(attackLength);
-
-        isAttacking = false;
-        attackHitbox.SetActive(false);
+    public void SetAttacking(int num)
+    {
+        if (num == 0)
+        {
+            isAttacking = false;
+        }
+        else if (num == 1)
+        {
+            isAttacking = true;
+        }
     }
 }

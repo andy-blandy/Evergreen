@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     void SetMovementAnimation()
     {
-        float angleBetweenMoveAndAim = Vector3.Angle(desiredVelocity, transform.forward);
+        float angleBetweenMoveAndAim = Vector3.SignedAngle(desiredVelocity, transform.forward, transform.up);
 
         lowerBodyAnimator.SetFloat("velocity", velocity.magnitude);
         lowerBodyAnimator.SetFloat("lookAngle", angleBetweenMoveAndAim);
