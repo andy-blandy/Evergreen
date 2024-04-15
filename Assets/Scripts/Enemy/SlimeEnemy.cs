@@ -17,6 +17,10 @@ public class SlimeEnemy : EnemyBase
     public AudioSource damageSFX;
     public AudioSource deathSFX;
 
+    [Header("Visuals")]
+    public List<Material> slimeMaterials;
+    public MeshRenderer meshRenderer;
+
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player")
@@ -32,6 +36,13 @@ public class SlimeEnemy : EnemyBase
             Vector3 knockbackVector = playerDirection * knockbackAmount;
             id.Knockback(knockbackVector);
         }
+    }
+
+    protected override void EnemyAwake()
+    {
+        int randInt = Random.Range(0, slimeMaterials.Count - 1);
+
+        meshRenderer.material = slimeMaterials[randInt];
     }
 
     protected override void EnemyUpdate()

@@ -33,6 +33,13 @@ public class EnemyBase : MonoBehaviour, IDamageable
         rb.isKinematic = true;
 
         health = startingHealth;
+
+        EnemyAwake();
+    }
+
+    protected virtual void EnemyAwake()
+    {
+        return;
     }
 
     protected virtual void Update()
