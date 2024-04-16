@@ -46,7 +46,7 @@ public class WaterBoss : EnemyBase
     public float knockbackAmount = 5f;
 
     [Header("Phases")]
-    public float phaseTimer;
+    public float idleTimer;
     public int currentPhase;
 
     private int idle = 0;
@@ -59,6 +59,9 @@ public class WaterBoss : EnemyBase
 
         healthBar.maxValue = startingHealth;
         healthBar.value = startingHealth;
+
+        currentPhase = idle;
+        idleTimer = timeIdling;
     }
 
     public override void Knockback(Vector3 knockback)
@@ -78,41 +81,30 @@ public class WaterBoss : EnemyBase
             SummonBeavers();
         }
 
-        phaseTimer -= Time.deltaTime;
         switch (currentPhase)
         {
-            case 0:
+            case 0: // Idle
                 OnGuard();
                 break;
-            case 1:
+            case 1: // Moving
                 MoveToWaypoint();
                 break;
         }
     }
-
-    public override void Kill()
-    {
-        isDefeated = true;
-        gameObject.SetActive(false);
-
-        room.LockRoom(false);
-        room.KillAllEnemies();
-        Instantiate(loot, lootSpawnLocation.position, Quaternion.identity);
-    }
-
     private void OnGuard()
     {
         LookAtPlayer();
         Healing();
-        
+
         // Switch phase if timer is low enough
-        if (phaseTimer < 0)
+        idleTimer -= Time.deltaTime;
+        if (idleTimer < 0)
         {
             GetRandomWaypoint();
             currentPhase = moving;
         }
 
-        // TO-DO: Attack player if they are close enough
+        // Attack player if they are close enough
         float distFromPlayer = (Player.instance.transform.position - transform.position).magnitude;
         if (distFromPlayer < attackRadius && !animator.GetBool("playerInFront"))
         {
@@ -123,6 +115,62 @@ public class WaterBoss : EnemyBase
                 attackTimer = timeBetweenAttacks;
             }
         }
+    }
+    private void MoveToWaypoint()
+    {
+        // Update animation
+        if (!animator.GetBool("moving"))
+        {
+            animator.SetBool("moving", true);
+        }
+
+        // Move towards the currently selected waypoint
+        agent.SetDestination(currentWaypoint);
+
+        // Check if the enemy is close enough to the selected waypoint
+        bool atDestination = false;
+        if ((transform.position - currentWaypoint).magnitude < 1f)
+        {
+            atDestination = true;
+        }
+
+        // Switch phase to idle phase once the enemy has arrived at the destination
+        if (atDestination)
+        {
+            animator.SetBool("moving", false);
+            currentPhase = idle;
+            idleTimer = timeIdling;
+            healTimer = timeBetweenHeals;
+        }
+    }
+
+    private void GetRandomWaypoint()
+    {
+        // Create list of all possible waypoint options (excluding the waypoint the enemy is currently at)
+        List<Vector3> availWaypoints = new List<Vector3>();
+        foreach (Vector3 wp in waypoints)
+        {
+            if (wp.Equals(currentWaypoint))
+            {
+                continue;
+            }
+
+            availWaypoints.Add(wp);
+        }
+
+        // Choose a random waypoint from the available options
+        int choice = Random.Range(0, availWaypoints.Count);
+        currentWaypoint = this.transform.parent.position + availWaypoints[choice];
+    }
+
+    public override void Kill()
+    {
+        isDefeated = true;
+        gameObject.SetActive(false);
+
+        room.LockRoom(false);
+        room.KillAllEnemies();
+        Instantiate(loot, lootSpawnLocation.position, Quaternion.identity);
     }
     
     private void Healing()
@@ -153,52 +201,6 @@ public class WaterBoss : EnemyBase
         animator.SetBool("playerInFront", true);
     }
 
-    private void GetRandomWaypoint()
-    {
-        // Create list of all possible waypoint options (excluding the waypoint the enemy is currently at)
-        List<Vector3> availWaypoints = new List<Vector3>();
-        foreach (Vector3 wp in waypoints)
-        {
-            if (wp.Equals(currentWaypoint))
-            {
-                continue;
-            }
-
-            availWaypoints.Add(wp);
-        }
-
-        // Choose a random waypoint from the available options
-        int choice = Random.Range(0, availWaypoints.Count);
-        currentWaypoint = availWaypoints[choice];
-    }
-
-    private void MoveToWaypoint()
-    {
-        // Update animation
-        if (!animator.GetBool("moving"))
-        {
-            animator.SetBool("moving", true);
-        }
-
-        // Move towards the currently selected waypoint
-        agent.SetDestination(currentWaypoint);
-
-        // Check if the enemy is close enough to the selected waypoint
-        bool atDestination = false;
-        if ((transform.position - currentWaypoint).magnitude < 1f)
-        {
-            atDestination = true;
-        }
-
-        // Switch phase to idle phase once the enemy has arrived at the destination
-        if (atDestination)
-        {
-            animator.SetBool("moving", false);
-            currentPhase = idle;
-            phaseTimer = timeIdling;
-            healTimer = timeBetweenHeals;
-        }
-    }
 
     private void SummonBeavers()
     {
@@ -208,7 +210,8 @@ public class WaterBoss : EnemyBase
         {
             // Choose a random spawnpoint
             int randomSpawn = Random.Range(0, beaverSpawnpoints.Count);
-            Instantiate(beaverPrefab, beaverSpawnpoints[randomSpawn], Quaternion.identity);
+            Vector3 spawnPos = this.transform.parent.position + beaverSpawnpoints[randomSpawn];
+            Instantiate(beaverPrefab, spawnPos, Quaternion.identity);
         }
     }
 
