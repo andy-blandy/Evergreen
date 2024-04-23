@@ -26,12 +26,19 @@ public class PlayerMovement : MonoBehaviour
     public bool dashCooling;
     public Vector3 endOfDashPos;
 
+    public int numberOfDashes;
+    public int currentDash;
+    public float timeBeforeRecharge;
+    public float rechargeTime;
+
     [Header("Animator")]
     public Animator lowerBodyAnimator;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        currentDash = numberOfDashes;
     }
 
     /*
@@ -104,6 +111,17 @@ public class PlayerMovement : MonoBehaviour
      */
     private void Dash()
     {
+        if (currentDash <= 0)
+        {
+            return;
+        } else
+        {
+            currentDash--;
+            PlayerHUD.instance.AnimateDashUse(currentDash, timeBeforeRecharge, rechargeTime);
+            StartCoroutine(RechargeDash());
+        }
+
+
         // With the player input, we have a vector pointing in the direction the player wants to move
         Vector3 dashVector = new Vector3(playerInput.x, 0f, playerInput.y);
 
@@ -121,6 +139,8 @@ public class PlayerMovement : MonoBehaviour
             // Otherwise, the player will move the entire length of their dash
             endOfDashPos = transform.position + (dashVector * dashLength);
         }
+
+        // Set bools
         isDashing = true;
         dashCooling = true;
     }
@@ -130,6 +150,13 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         dashCooling = false;
     }
+
+    IEnumerator RechargeDash()
+    {
+        yield return new WaitForSeconds(timeBeforeRecharge + rechargeTime);
+        currentDash++;
+    }
+
     public void Knockback(Vector3 knockback)
     {
         if (!gameObject.activeSelf)

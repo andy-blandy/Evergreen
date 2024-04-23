@@ -71,7 +71,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (dialogueCooling)
         {
-            Debug.Log("DIALOGUE COOLING");
             return;
         }
 

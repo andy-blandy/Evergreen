@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItem", menuName = "ShopItem", order = 0)]
 public class ShopItem : MonoBehaviour
 {
     public int cost;
