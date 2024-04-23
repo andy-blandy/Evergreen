@@ -40,8 +40,8 @@ public class SlimeEnemy : EnemyBase
 
     protected override void EnemyAwake()
     {
-        int randInt = Random.Range(0, slimeMaterials.Count - 1);
-
+        // Set the look of the slime
+        int randInt = Random.Range(0, slimeMaterials.Count);
         meshRenderer.material = slimeMaterials[randInt];
     }
 
