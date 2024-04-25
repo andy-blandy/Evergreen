@@ -1127,6 +1127,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 2705783089101309499, guid: 57db82eca556e5b449080046d32f1dd1, type: 3}
+      propertyPath: dashRoot
+      value: 
+      objectReference: {fileID: 4854680894761565760}
+    - target: {fileID: 2705783089101309499, guid: 57db82eca556e5b449080046d32f1dd1, type: 3}
+      propertyPath: dashRechargeSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4213615090276569600, guid: 57db82eca556e5b449080046d32f1dd1, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1

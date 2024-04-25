@@ -10,6 +10,8 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject dialogueIndicator;
     public bool inTrigger;
 
+    public GameObject dialogueCamera;
+
     void Awake()
     {
         dialogueIndicator.SetActive(false);
@@ -20,6 +22,11 @@ public class DialogueTrigger : MonoBehaviour
         if (inTrigger && !DialogueManager.instance.inDialogue)
         {
             ListenForPress();
+        }
+
+        if (dialogueCamera != null && dialogueCamera.activeSelf != inTrigger)
+        {
+            dialogueCamera.SetActive(inTrigger);
         }
     }
 

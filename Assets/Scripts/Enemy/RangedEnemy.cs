@@ -21,10 +21,13 @@ public class RangedEnemy : EnemyBase
     private GameObject projectile;
     [SerializeField]
     private float fireRate = 2f;
-    public float bulletTimer;
+    public float timeBetweenAttacks;
 
     // Audio
     public AudioSource shootSFX;
+
+    // Animation
+    public Animator animator;
 
     protected override void EnemyUpdate()
     {
@@ -52,15 +55,25 @@ public class RangedEnemy : EnemyBase
 
     void Idle()
     {
-        agent.isStopped = true;
+        if (!agent.isStopped)
+        {
+            agent.isStopped = true;
+        }
 
-        /*
-         * Insert idle behavior here
-         */
+        if (animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", false);
+        }
     }
 
     void Follow()
     {
+        if (!animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", true);
+        }
+
+
         if (agent.isStopped)
         {
             agent.isStopped = false;
@@ -72,17 +85,31 @@ public class RangedEnemy : EnemyBase
 
     void Attack()
     {
-        bulletTimer += Time.deltaTime;
+        if (!agent.isStopped)
+        {
+            agent.isStopped = true;
+        }
+
+        if (animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", false);
+        }
+
+        timeBetweenAttacks += Time.deltaTime;
 
         LookAtPlayer();
-        agent.isStopped = true;
 
-        if (bulletTimer > fireRate)
+        if (timeBetweenAttacks > fireRate)
         {
-            shootSFX.Play();
-            bulletTimer = 0;
-            Instantiate(projectile, BulletSpawn.transform.position, gameObject.transform.rotation);
+            animator.SetTrigger("attack");
+            timeBetweenAttacks = 0;
         }
+    }
+    
+    public void Fire()
+    {
+        shootSFX.Play();
+        Instantiate(projectile, BulletSpawn.transform.position, gameObject.transform.rotation);
     }
 
     //back away from the player
@@ -91,6 +118,11 @@ public class RangedEnemy : EnemyBase
         if (agent.isStopped)
         {
             agent.isStopped = false;
+        }
+
+        if (!animator.GetBool("walking"))
+        {
+            animator.SetBool("walking", true);
         }
 
         Vector3 fleeDirection = Vector3.Normalize(transform.position - Player.instance.transform.position);

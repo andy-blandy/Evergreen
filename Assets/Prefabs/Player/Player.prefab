@@ -235,8 +235,8 @@ MonoBehaviour:
   endOfDashPos: {x: 0, y: 0, z: 0}
   numberOfDashes: 3
   currentDash: 0
-  timeBeforeRecharge: 0
-  rechargeTime: 0
+  timeBeforeRecharge: 5
+  rechargeTime: 1
   lowerBodyAnimator: {fileID: 1835297943754762651}
 --- !u!114 &485609409404754150
 MonoBehaviour:

@@ -52,14 +52,16 @@ public class DungeonRoom : MonoBehaviour
     {
         for (int i = 0; i < enemies.Count; i++)
         {
-            Debug.Log(enemies[i]);
+            
             enemies[i].gameObject.SetActive(active);
         }
     }
 
     private void ReviewEnemies()
     {
-        for (int i = enemies.Count - 1; i > 0; i--)
+        Debug.Log("REVIEWING ENEMIES");
+
+        for (int i = enemies.Count - 1; i >= 0; i--)
         {
             if (enemies[i].GetComponent<EnemyBase>().isDefeated)
             {
