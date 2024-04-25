@@ -13,5 +13,10 @@ public class KnockbackPlayerStat : PlayerUpgrade
     {
         Player.instance.playerAttack.knockbackAmount += num;
     }
+
+    public override void ResetStat()
+    {
+        Player.instance.playerAttack.knockbackAmount = 10f;
+    }
 }
 

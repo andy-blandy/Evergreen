@@ -13,6 +13,10 @@ public class PlayerAttack : MonoBehaviour
     public Coroutine attackCoroutine;
     bool isAttacking;
 
+    [Header("Punches")]
+    public bool chargingLeft;
+    public bool chargingRight;
+
     public Animator upperBodyAnimator;
 
     public AudioSource attackSFX;

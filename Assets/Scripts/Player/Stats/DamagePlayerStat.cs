@@ -13,4 +13,9 @@ public class DamagePlayerStat : PlayerUpgrade
     {
         Player.instance.playerAttack.damage += Mathf.RoundToInt(num);
     }
+
+    public override void ResetStat()
+    {
+        Player.instance.playerAttack.damage = 1;
+    }
 }

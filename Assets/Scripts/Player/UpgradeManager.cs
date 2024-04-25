@@ -37,7 +37,7 @@ public class UpgradeManager : MonoBehaviour
     {
         foreach (PlayerUpgrade upgrade in stats.Values)
         {
-            upgrade.SetBonus(0);
+            upgrade.ResetStat();
         }
     }
 }

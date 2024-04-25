@@ -6,4 +6,6 @@ public abstract class PlayerUpgrade
 {
     public abstract void SetBonus(float num);
     public abstract void AddToBonus(float num);
+
+    public abstract void ResetStat();
 }

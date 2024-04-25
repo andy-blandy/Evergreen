@@ -13,4 +13,9 @@ public class HealthPlayerStat : PlayerUpgrade
     {
         Player.instance.playerHealth.Heal(Mathf.RoundToInt(num));
     }
+
+    public override void ResetStat()
+    {
+        Player.instance.playerHealth.health = 10;
+    }
 }

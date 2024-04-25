@@ -9,6 +9,5 @@ public class ShopItem : MonoBehaviour
 
     public virtual void Use()
     {
-
     }
 }

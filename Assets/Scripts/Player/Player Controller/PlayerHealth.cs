@@ -17,6 +17,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Rigidbody rb;
 
+    public bool isDead;
+
+    public Animator animator;
+
     public AudioSource damageSFX;
 
     public static PlayerHealth instance;
@@ -31,6 +35,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         health = startingHealth;
         UpdateHealthUI();
+        animator.SetTrigger("Respawn");
     }
 
     public void Damage(int damage)
@@ -61,26 +66,34 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void Kill()
     {
-        // TO-DO: Play death animation
-
-        // Reset the player's upgrades
-        UpgradeManager.instance.ResetUpgrades();
-
-        // Randomize the dungeon
-        NewDungeonManager.instance.GenerateNewDungeon();
-
-        // Respawn the player
-        Respawn();
+        if (!isDead)
+        {
+            Player.instance.FreezePlayer(true);
+            animator.ResetTrigger("Respawn");
+            animator.SetTrigger("Die");
+            isDead = true;
+        }
     }
 
     void Respawn()
     {
-        health = maxHealth;
+        health = startingHealth;
         UpdateHealthUI();
 
         if (spawn != null)
         {
             transform.position = spawn.position;
+
+            Player.instance.FreezePlayer(false);
+            animator.ResetTrigger("Die");
+            animator.SetTrigger("Respawn");
+            isDead = false;
+
+            // Reset the player's upgrades
+            UpgradeManager.instance.ResetUpgrades();
+
+            // Randomize the dungeon
+            NewDungeonManager.instance.GenerateNewDungeon();
         }
     }
 
