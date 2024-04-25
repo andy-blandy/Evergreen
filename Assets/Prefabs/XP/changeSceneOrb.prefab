@@ -215,5 +215,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec605bfec39d10242947ff49ce1c012f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Dungeon_1
+  sceneName: Ending
   orbSFX: {fileID: -881410157100831998}
