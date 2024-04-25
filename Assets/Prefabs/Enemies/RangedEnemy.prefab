@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDefeated: 0
   startingHealth: 1
+  xpToSpawn: 1
   stunLength: 1
   isStunned: 0
   turnSpeed: 0.02

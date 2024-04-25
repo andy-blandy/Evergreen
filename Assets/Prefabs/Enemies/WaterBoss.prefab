@@ -270,9 +270,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDefeated: 0
   startingHealth: 10
+  xpToSpawn: 5
   stunLength: 1
   isStunned: 0
   turnSpeed: 0.2
+  loot: {fileID: 0}
+  lootSpawnLocation: {fileID: 0}
   animator: {fileID: 4455966429609677827}
   room: {fileID: 0}
   healthBar: {fileID: 403904869800709490}
@@ -303,7 +306,7 @@ MonoBehaviour:
   timeBetweenAttacks: 2
   damage: 1
   knockbackAmount: 15
-  phaseTimer: 0
+  idleTimer: 0
   currentPhase: 0
 --- !u!65 &7917006873768586357
 BoxCollider:

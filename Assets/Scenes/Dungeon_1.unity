@@ -564,6 +564,10 @@ MonoBehaviour:
   combatRooms:
   - {fileID: 1681175592718720730, guid: 351b1b7058f0f1a429d07fcccc79b754, type: 3}
   - {fileID: 497557056947070089, guid: 03b45853c96b0474dbed13d3c07038cd, type: 3}
+  - {fileID: 1681175592718720730, guid: 6134607eb6becfd42be991aa9be686db, type: 3}
+  - {fileID: 1681175592718720730, guid: 229d54a18af89b844b0904f49a3c9804, type: 3}
+  - {fileID: 1681175592718720730, guid: 2532e501b81d0164693c27da6f9513ba, type: 3}
+  - {fileID: 497557056947070089, guid: 978452030991f3d48a61428a3f78721e, type: 3}
   shopRooms:
   - {fileID: 4771822633619663357, guid: 4b639417ab5634e448ca3596d3360096, type: 3}
   bossDoor: {fileID: 5731036688884670265, guid: d3105f79fc0f67e48979f9b9a8b72a30, type: 3}
@@ -996,6 +1000,14 @@ PrefabInstance:
     - target: {fileID: 773289129606039697, guid: 6ec7779dd5ac719468ad6bba816fae1a, type: 3}
       propertyPath: m_Name
       value: StartingArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 3659468031017964931, guid: 6ec7779dd5ac719468ad6bba816fae1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3659468031017964931, guid: 6ec7779dd5ac719468ad6bba816fae1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8366228682688061500, guid: 6ec7779dd5ac719468ad6bba816fae1a, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,7 +9,6 @@ public class DamageableBarrel : MonoBehaviour, IDamageable
 
     [Header("Components")]
     private Rigidbody rb;
-    public Transform target;
     public float speed;
 
     void Awake()

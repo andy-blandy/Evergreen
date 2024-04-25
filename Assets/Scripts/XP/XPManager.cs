@@ -64,5 +64,10 @@ public class XPManager : MonoBehaviour
         {
             spawnPos.y = 0.5f;
         }
+
+        for (int i = 0; i < numToSpawn; i++)
+        {
+            GetOrb().transform.position = spawnPos;
+        }
     }
 }

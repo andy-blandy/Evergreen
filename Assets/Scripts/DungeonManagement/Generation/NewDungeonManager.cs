@@ -24,7 +24,7 @@ public class NewDungeonManager : MonoBehaviour
     {
         dungeon = dungeonGeneration.StartDungeonGeneration(true);
 
-        isRoomCameraEnabled = true;
+        isRoomCameraEnabled = false;
     }
 
     public void GenerateNewDungeon()

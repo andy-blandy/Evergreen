@@ -25,7 +25,6 @@ public class SlimeEnemy : EnemyBase
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("COLLIDE");
             IDamageable id = other.gameObject.GetComponent<IDamageable>();
 
             id.Damage(damage);

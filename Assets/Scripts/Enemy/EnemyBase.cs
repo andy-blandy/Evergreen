@@ -17,6 +17,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public int health { get; set; }
     public int startingHealth;
 
+    [Header("XP")]
+    public int xpToSpawn;
+
     [Header("Stun")]
     public float stunLength = 1f;
     protected float stunTimer;
@@ -92,7 +95,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         isDefeated = true;
 
         gameObject.SetActive(false);
-        XPManager.instance.SpawnXP(transform.position);
+        XPManager.instance.SpawnXP(transform.position, xpToSpawn);
         OnDeath();
     }
 

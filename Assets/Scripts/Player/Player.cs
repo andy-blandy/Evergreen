@@ -32,6 +32,11 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
     }
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
     public void SetXP(int value)
     {
         xp = value;

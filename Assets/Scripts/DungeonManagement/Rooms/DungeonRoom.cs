@@ -20,7 +20,7 @@ public class DungeonRoom : MonoBehaviour
 
     public virtual void EnterRoom()
     {
-        //roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
+        roomCamera.gameObject.SetActive(NewDungeonManager.instance.isRoomCameraEnabled);
         PlayerInput.OnAlt += SwitchCameraActive;
         EnemyBase.OnDeath += ReviewEnemies;
 
@@ -59,8 +59,6 @@ public class DungeonRoom : MonoBehaviour
 
     private void ReviewEnemies()
     {
-        Debug.Log("REVIEWING ENEMIES");
-
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
             if (enemies[i].GetComponent<EnemyBase>().isDefeated)
