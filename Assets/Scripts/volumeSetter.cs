@@ -23,7 +23,7 @@ public class volumeSetter : MonoBehaviour
     }
     public void setVolume()
     {
-        if(openVolume == false)
+        if (openVolume == false)
         {
             volumeSlider.gameObject.SetActive(true);
         }
@@ -48,9 +48,13 @@ public class volumeSetter : MonoBehaviour
     public void changeVolume()
     {
         float noiseLevel = volumeSlider.value;
-        mixer.SetFloat("MyExposedParam", Mathf.Log10(noiseLevel) * 20);
+        //mixer.SetFloat("MyExposedParam", Mathf.Log10(noiseLevel) * 20);
         mixer.SetFloat("MyExposedParam 1", Mathf.Log10(noiseLevel) * 20);
-        mixer.SetFloat("MyExposedParam 2", Mathf.Log10(noiseLevel) * 20);
-
+        //mixer.SetFloat("MyExposedParam 2", Mathf.Log10(noiseLevel) * 20);
+    }
+    public void changeSFX()
+    {
+        float noiseLevel = volumeSlider.value;
+        mixer.SetFloat("MyExposedParam", Mathf.Log10(noiseLevel) * 20);
     }
 }

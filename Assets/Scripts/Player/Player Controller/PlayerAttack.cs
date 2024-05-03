@@ -34,7 +34,9 @@ public class PlayerAttack : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
+        {            
+            // Audio
+            attackSFX.Play();
             Attack();
         }
     }
