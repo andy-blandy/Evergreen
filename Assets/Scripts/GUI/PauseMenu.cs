@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseCanvas;
     public GameObject mainMenu;
     public GameObject settingsMenu;
+    public GameObject volumeMenu;
 
     void OnEnable()
     {

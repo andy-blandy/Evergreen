@@ -186,6 +186,7 @@ MonoBehaviour:
   pauseCanvas: {fileID: 7067630373637610788}
   mainMenu: {fileID: 8107027360067193410}
   settingsMenu: {fileID: 5093178410589242502}
+  volumeMenu: {fileID: 1967364695634461643, guid: 598fceabe701dec44930501997ace3c5, type: 3}
 --- !u!1 &1424264738925206230
 GameObject:
   m_ObjectHideFlags: 0
